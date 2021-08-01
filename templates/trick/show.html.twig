@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title trick.title %}
+
+{% block body %}
+	
+	<div class="container mt-4">
+		<h1>{{ trick.title }}</h1>
+		<p class="mt-4">{{ trick.description | nl2br }}</p>
+	</div>
+
+{% endblock %}
