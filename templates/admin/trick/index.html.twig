@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Accueil' %}
+
+{% block body %}
+	
+	<div class="container text-center mt-4">
+		<h1>Bienvenue sur Snowtricks</h1>
+	</div>
+	
+	<div class="container">
+		<h2>Tous les tricks</h2>
+			<a href="{{ path('admin.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer un nouveau trick</a>
+		<div class="row flex">
+			{% for trick in tricks %}
+				<div class="col-3">
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">
+								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}">{{ trick.title }}</a>
+								<a href="{{ path('admin.trick.edit', {id: trick.id}) }}"><i class="far fa-edit"></i></a>
+								<a href=""><i class="far fa-trash-alt"></i></a>
+							</h5>
+							<p class="card-text">{{ trick.description | nl2br }}</p>
+							</h5>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+{% endblock %}
