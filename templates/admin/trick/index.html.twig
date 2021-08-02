@@ -10,7 +10,14 @@
 	
 	<div class="container">
 		<h2>Tous les tricks</h2>
-			<a href="{{ path('admin.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer un nouveau trick</a>
+		
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+		
+		<a href="{{ path('admin.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer un nouveau trick</a>
 		<div class="row flex">
 			{% for trick in tricks %}
 				<div class="col-3">
@@ -19,10 +26,12 @@
 							<h5 class="card-title">
 								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}">{{ trick.title }}</a>
 								<a href="{{ path('admin.trick.edit', {id: trick.id}) }}"><i class="far fa-edit"></i></a>
-								<a href=""><i class="far fa-trash-alt"></i></a>
+								<form method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
+									<button><i class="far fa-trash-alt"></i></button>
+								</form>
 							</h5>
 							<p class="card-text">{{ trick.description | nl2br }}</p>
-							</h5>
 						</div>
 					</div>
 				</div>

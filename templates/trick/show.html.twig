@@ -7,6 +7,12 @@
 	<div class="container mt-4">
 		<h1>{{ trick.title }}</h1>
 		<p class="mt-4">{{ trick.description | nl2br }}</p>
+		<p class="text-center">
+			Créé le {{ trick.createdAt | date('d/m/Y') }}
+			{% if trick.updatedAt is not null %}
+				(Modifié le {{ trick.updatedAt | date('d/m/Y') }})
+			{% endif %}
+		</p>
 	</div>
 
 {% endblock %}

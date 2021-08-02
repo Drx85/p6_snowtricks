@@ -56,19 +56,20 @@ class AdminTrickController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()) {
 			$this->em->persist($trick);
 			$this->em->flush();
+			$this->addFlash('success', 'Bien créé avec succès');
 			return $this->redirectToRoute('admin.trick.index');
 		}
 		
 		return $this->render('admin/trick/new.html.twig', [
 			'trick' => $trick,
-			'form' => $form->createView()
+			'form'  => $form->createView()
 		]);
 	}
 	
 	/**
-	 * @Route("/admin/trick/{id}", name="admin.trick.edit")
-	 * @param Trick        $trick
-	 * @param RequestStack $request
+	 * @Route("/admin/edit/trick/{id}", name="admin.trick.edit")
+	 * @param Trick   $trick
+	 * @param Request $request
 	 *
 	 * @return Response
 	 */
@@ -78,13 +79,31 @@ class AdminTrickController extends AbstractController
 		$form->handleRequest($request);
 		
 		if ($form->isSubmitted() && $form->isValid()) {
+			$trick->setUpdatedAt(new \DateTimeImmutable());
 			$this->em->flush();
+			$this->addFlash('success', 'Bien modifié avec succès');
 			return $this->redirectToRoute('admin.trick.index');
 		}
 		
 		return $this->render('admin/trick/edit.html.twig', [
 			'trick' => $trick,
-			'form' => $form->createView()
+			'form'  => $form->createView()
 		]);
+	}
+	
+	/**
+	 * @Route("/admin/delete/trick/{id}", name="admin.trick.delete")
+	 * @param Trick $trick
+	 *
+	 * @return RedirectResponse
+	 */
+	public function delete(Trick $trick, Request $request)
+	{
+		if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->get('_token'))) {
+			$this->em->remove($trick);
+			$this->em->flush();
+			$this->addFlash('success', 'Bien supprimé avec succès');
+		}
+		return $this->redirectToRoute('admin.trick.index');
 	}
 }
