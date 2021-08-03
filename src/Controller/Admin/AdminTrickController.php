@@ -57,7 +57,7 @@ class AdminTrickController extends AbstractController
 			$trick->setUpdatedAt(new \DateTimeImmutable());
 			$this->em->flush();
 			$this->addFlash('success', 'Bien modifié avec succès');
-			return $this->redirectToRoute('admin.trick.index');
+			return $this->redirectToRoute('home');
 		}
 		
 		return $this->render('admin/trick/edit.html.twig', [
@@ -79,6 +79,6 @@ class AdminTrickController extends AbstractController
 			$this->em->flush();
 			$this->addFlash('success', 'Bien supprimé avec succès');
 		}
-		return $this->redirectToRoute('admin.trick.index');
+		return $this->redirectToRoute('home');
 	}
 }
