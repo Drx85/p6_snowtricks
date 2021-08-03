@@ -56,7 +56,7 @@ class AdminTrickController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()) {
 			$trick->setUpdatedAt(new \DateTimeImmutable());
 			$this->em->flush();
-			$this->addFlash('success', 'Bien modifié avec succès');
+			$this->addFlash('success', 'Figure modifiée avec succès.');
 			return $this->redirectToRoute('home');
 		}
 		
@@ -68,7 +68,9 @@ class AdminTrickController extends AbstractController
 	
 	/**
 	 * @Route("/admin/delete/trick/{id}", name="admin.trick.delete")
-	 * @param Trick $trick
+	 * @param Trick   $trick
+	 *
+	 * @param Request $request
 	 *
 	 * @return RedirectResponse
 	 */
@@ -77,7 +79,7 @@ class AdminTrickController extends AbstractController
 		if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->get('_token'))) {
 			$this->em->remove($trick);
 			$this->em->flush();
-			$this->addFlash('success', 'Bien supprimé avec succès');
+			$this->addFlash('success', 'Figure supprimée avec succès.');
 		}
 		return $this->redirectToRoute('home');
 	}

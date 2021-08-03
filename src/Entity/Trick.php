@@ -44,6 +44,12 @@ class Trick
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $updated_at;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
     
     public function __construct()
 	{
@@ -51,9 +57,9 @@ class Trick
 	}
 	
 	public function getId(): ?int
-    {
-        return $this->id;
-    }
+             {
+                 return $this->id;
+             }
 
     public function getTitle(): ?string
     {
@@ -104,6 +110,18 @@ class Trick
     public function setUpdatedAt(?\DateTimeImmutable $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

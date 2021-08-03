@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Gérer les catégories' %}
+
+{% block body %}
+	
+	<div class="container mt-4">
+		<h1>Gérer les catégorie</h1>
+		
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+		
+		<a href="{{ path('admin.category.new') }}" class="btn btn-success mt-2 mb-4">Créer une nouvelle catégorie</a>
+		
+		
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th>Noms</th>
+				<th>Actions</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for category in categories %}
+				<tr>
+					<td><h5>{{ category.name }}</h5></td>
+					<td>
+						<a href="{{ path('admin.category.edit', {id: category.id}) }}">
+							<button class="btn btn-secondary">Editer</button>
+						</a>
+						<form method="post" action="{{ path('admin.category.delete', {id: category.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ category.id) }}">
+							<button class="btn btn-danger mt-2">Supprimer</button>
+						</form>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+{% endblock %}

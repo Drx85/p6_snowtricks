@@ -31,7 +31,7 @@
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">
-								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}">{{ trick.title }}</a>
+								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}">{{ trick.category.name }} | {{ trick.title }}</a>
 								{% if is_granted('ROLE_ADMIN') %}
 									<a href="{{ path('admin.trick.edit', {id: trick.id}) }}"><i class="far fa-edit"></i></a>
 									<form method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">

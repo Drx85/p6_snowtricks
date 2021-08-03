@@ -31,7 +31,7 @@ class PublishTrickController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()) {
 			$em->persist($trick);
 			$em->flush();
-			$this->addFlash('success', 'Bien créé avec succès.');
+			$this->addFlash('success', 'Figure créée avec succès.');
 			return $this->redirectToRoute('home');
 		}
 		
