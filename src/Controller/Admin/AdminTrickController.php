@@ -19,7 +19,7 @@ class AdminTrickController extends AbstractController
 	/**
 	 * @var TrickRepository
 	 */
-	private $repository;
+	private TrickRepository $repository;
 	/**
 	 * @var ObjectManager
 	 */
@@ -39,31 +39,6 @@ class AdminTrickController extends AbstractController
 	{
 		$tricks = $this->repository->findAll();
 		return $this->render('admin/trick/index.html.twig', compact('tricks'));
-	}
-	
-	/**
-	 * @Route("/admin/trick/create", name="admin.trick.new")
-	 * @param Request $request
-	 *
-	 * @return Response
-	 */
-	public function new(Request $request)
-	{
-		$trick = new Trick();
-		$form = $this->createForm(TrickType::class, $trick);
-		$form->handleRequest($request);
-		
-		if ($form->isSubmitted() && $form->isValid()) {
-			$this->em->persist($trick);
-			$this->em->flush();
-			$this->addFlash('success', 'Bien créé avec succès');
-			return $this->redirectToRoute('admin.trick.index');
-		}
-		
-		return $this->render('admin/trick/new.html.twig', [
-			'trick' => $trick,
-			'form'  => $form->createView()
-		]);
 	}
 	
 	/**

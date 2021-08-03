@@ -39,7 +39,7 @@
 				</li>
 			</ul>
 			<ul class="navbar-nav ms-auto">
-				{% if app.user %}
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<span class="navbar-text text-white-90">
       			{{ app.user.username }} ({{ app.user.roles.0 }})
     		</span>
@@ -48,7 +48,7 @@
 					</li>
 				{% else %}
 					<li>
-						<a class="nav-link text-white" href="index.php?controller=account&action=show_register">Créer un compte</a>
+						<a class="nav-link text-white" href="{{ path('app_register') }}">Créer un compte</a>
 					</li>
 					<li>
 						<a class="nav-link text-white" href="{{ path('app_login') }}">Se connecter</a>

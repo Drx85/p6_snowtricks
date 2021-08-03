@@ -11,14 +11,19 @@
 	<div class="container">
 		<h2>Tous les tricks</h2>
 		
+		{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.verified is same as false %}
+			<p class="text-warning">Pensez à valider votre compte en cliquant sur le lien reçu sur {{ app.user.email }} pour bénéficier de toutes les fonctionnalités de votre compte (création de
+				tricks, envoi d'un commentaire...).</p>
+		{% endif %}
+		
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success">
 				{{ message }}
 			</div>
 		{% endfor %}
 		
-		{% if is_granted('ROLE_ADMIN') %}
-		<a href="{{ path('admin.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer un nouveau trick</a>
+		{% if is_granted('ROLE_PUBLISHER') %}
+			<a href="{{ path('publish.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer un nouveau trick</a>
 		{% endif %}
 		<div class="row flex">
 			{% for trick in tricks %}
@@ -28,11 +33,11 @@
 							<h5 class="card-title">
 								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}">{{ trick.title }}</a>
 								{% if is_granted('ROLE_ADMIN') %}
-								<a href="{{ path('admin.trick.edit', {id: trick.id}) }}"><i class="far fa-edit"></i></a>
-								<form method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
-									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
-									<button><i class="far fa-trash-alt"></i></button>
-								</form>
+									<a href="{{ path('admin.trick.edit', {id: trick.id}) }}"><i class="far fa-edit"></i></a>
+									<form method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
+										<button><i class="far fa-trash-alt"></i></button>
+									</form>
 								{% endif %}
 							</h5>
 							<p class="card-text">{{ trick.description | nl2br }}</p>
