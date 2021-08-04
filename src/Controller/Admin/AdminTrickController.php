@@ -67,6 +67,15 @@ class AdminTrickController extends AbstractController
 				$img->setName($file);
 				$trick->addImage($img);
 			}
+			$headerImage = $form->get('headerImage')->getData();
+			if ($headerImage) {
+				$file = md5(uniqid()) . '.' . $headerImage->guessExtension();
+				$headerImage->move(
+					$this->getParameter('header_directory'),
+					$file
+				);
+				$trick->setHeaderImage($file);
+			}
 			$trick->setUpdatedAt(new \DateTimeImmutable());
 			$this->em->flush();
 			$this->addFlash('success', 'Figure modifiée avec succès.');

@@ -41,6 +41,17 @@ class PublishTrickController extends AbstractController
 			$img->setName($file);
 			$trick->addImage($img);
 			}
+			$headerImage = $form->get('headerImage')->getData();
+			if ($headerImage) {
+				$file = md5(uniqid()) . '.' . $headerImage->guessExtension();
+				$headerImage->move(
+					$this->getParameter('header_directory'),
+					$file
+				);
+			} else {
+				$file = 'default.jpg';
+			}
+			$trick->setHeaderImage($file);
 			$em->persist($trick);
 			$em->flush();
 			$this->addFlash('success', 'Figure créée avec succès.');

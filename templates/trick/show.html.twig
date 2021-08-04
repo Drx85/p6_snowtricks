@@ -4,6 +4,8 @@
 
 {% block body %}
 	
+	<img src="{{ asset('/uploads/images/header/' ~ trick.headerImage) }}" alt="Header-Image">
+	
 	<div class="container mt-4">
 		<h1>{{ trick.category.name }} | {{ trick.title }}</h1>
 		<p class="mt-4">{{ trick.description | nl2br }}</p>
