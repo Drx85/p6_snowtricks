@@ -17,7 +17,7 @@ class TrickController extends AbstractController
 	/**
 	 * @var TrickRepository
 	 */
-	private $repository;
+	private TrickRepository $repository;
 	/**
 	 * @var
 	 */

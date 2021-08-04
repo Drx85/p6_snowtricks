@@ -4,11 +4,13 @@
 namespace App\Controller\Admin;
 
 
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -54,6 +56,17 @@ class AdminTrickController extends AbstractController
 		$form->handleRequest($request);
 		
 		if ($form->isSubmitted() && $form->isValid()) {
+			$images = $form->get('images')->getData();
+			foreach ($images as $image) {
+				$file = md5(uniqid()) . '.' . $image->guessExtension();
+				$image->move(
+					$this->getParameter('images_directory'),
+					$file
+				);
+				$img = new Image();
+				$img->setName($file);
+				$trick->addImage($img);
+			}
 			$trick->setUpdatedAt(new \DateTimeImmutable());
 			$this->em->flush();
 			$this->addFlash('success', 'Figure modifiée avec succès.');
@@ -82,5 +95,25 @@ class AdminTrickController extends AbstractController
 			$this->addFlash('success', 'Figure supprimée avec succès.');
 		}
 		return $this->redirectToRoute('home');
+	}
+	
+	/**
+	 * @Route("/admin/delete/image/{id}", name="admin.image.delete", methods={"DELETE"})
+	 * @param Image   $image
+	 * @param Request $request
+	 *
+	 * @return JsonResponse
+	 */
+	public function deleteImage(Image $image, Request $request)
+	{
+		$data = json_decode($request->getContent(), true);
+		if ($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])) {
+			$name = $image->getName();
+			unlink($this->getParameter('images_directory') . '/' . $name);
+			$this->em->remove($image);
+			$this->em->flush();
+			return new JsonResponse(['success' => 1]);
+		}
+		return new JsonResponse(['error' => 'invalid_token'], 400);
 	}
 }

@@ -4,6 +4,7 @@
 namespace App\Controller\Publish;
 
 
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -29,6 +30,17 @@ class PublishTrickController extends AbstractController
 		$form->handleRequest($request);
 		
 		if ($form->isSubmitted() && $form->isValid()) {
+			$images = $form->get('images')->getData();
+			foreach ($images as $image) {
+				$file = md5(uniqid()) . '.' . $image->guessExtension();
+				$image->move(
+					$this->getParameter('images_directory'),
+					$file
+				);
+			$img = new Image();
+			$img->setName($file);
+			$trick->addImage($img);
+			}
 			$em->persist($trick);
 			$em->flush();
 			$this->addFlash('success', 'Figure créée avec succès.');

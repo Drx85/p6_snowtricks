@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,7 +21,13 @@ class TrickType extends AbstractType
 				'choice_label' => 'name',
 				'multiple' => false
 			])
-			->add('description');
+			->add('description')
+			->add('images', FileType::class, [
+				'label' => false,
+				'multiple' => true,
+				'mapped' => false,
+				'required' => false
+			]);
 	}
 	
 	public function configureOptions(OptionsResolver $resolver)
