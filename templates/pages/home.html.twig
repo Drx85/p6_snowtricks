@@ -22,13 +22,16 @@
 			</div>
 		{% endfor %}
 		
-		{% if is_granted('ROLE_PUBLISHER') %}
+		{% if is_granted('ROLE_USER') %}
 			<a href="{{ path('publish.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer un nouveau trick</a>
 		{% endif %}
 		<div class="row flex">
 			{% for trick in tricks %}
 				<div class="col-3">
 					<div class="card">
+						{% if trick.headerImage %}
+							<img src="{{ asset('/uploads/images/header/' ~ trick.headerImage) }}" alt="Header-Image">
+						{% endif %}
 						<div class="card-body">
 							<h5 class="card-title">
 								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}">{{ trick.category.name }} | {{ trick.title }}</a>

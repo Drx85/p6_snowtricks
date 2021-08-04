@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 
@@ -38,7 +39,6 @@ class TrickType extends AbstractType
 					new File([
 						'maxSize' => '1000k',
 					])
-					
 				],
 
 			])
@@ -48,16 +48,18 @@ class TrickType extends AbstractType
 				'mapped'   => false,
 				'required' => false,
 				'constraints' => [
+					new All([
 					new Image([
-						'maxHeight' => 256,
-						'minHeight' => 256,
+						'maxHeight' => 250,
+						'minHeight' => 250,
 						'maxWidth'  => 400,
 						'minWidth'  => 400
 					]),
 					new File([
 						'maxSize' => '200k',
 					])
-				
+						]
+					)
 				],
 			]);
 	}

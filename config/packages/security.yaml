@@ -35,8 +35,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN, allow_if: user.isVerified() == true }
-         - { path: ^/publish, roles: ROLE_PUBLISHER, allow_if: user.isVerified() == true }
-        # - { path: ^/profile, roles: ROLE_USER }
+         - { path: ^/publish, roles: ROLE_USER, allow_if: user.isVerified() == true }
 
     access_decision_manager:
       strategy: unanimous
