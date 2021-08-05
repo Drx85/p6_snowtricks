@@ -9,6 +9,7 @@ use App\Entity\Trick;
 use App\Service\LocalFilesystemFileDeleter;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ImageSubscriber implements EventSubscriber
@@ -30,7 +31,7 @@ class ImageSubscriber implements EventSubscriber
 	
 	public function getSubscribedEvents()
 	{
-		return ['preRemove'];
+		return ['preRemove', 'preUpdate'];
 	}
 	
 	public function preRemove(LifecycleEventArgs $args)
@@ -44,6 +45,14 @@ class ImageSubscriber implements EventSubscriber
 		if ($entity instanceof Image) {
 			$image = $this->params->get('images_directory') . '/' . $entity->getName();
 			$this->deleter->delete($image);
+		}
+	}
+	
+	public function preUpdate(PreUpdateEventArgs $args)
+	{
+		if ($args->getObject() instanceof Trick && $args->getOldValue('headerImage') !== 'default.jpg') {
+			$oldHeaderImagePath = $this->params->get('header_directory') . '/' . $args->getOldValue('headerImage');
+			$this->deleter->delete($oldHeaderImagePath);
 		}
 	}
 }
