@@ -6,18 +6,26 @@ namespace App\Listener;
 
 use App\Entity\Image;
 use App\Entity\Trick;
+use App\Service\LocalFilesystemFileDeleter;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Filesystem\Filesystem;
 
 class ImageSubscriber implements EventSubscriber
 {
+	/**
+	 * @var ParameterBagInterface
+	 */
 	private ParameterBagInterface $params;
+	/**
+	 * @var LocalFilesystemFileDeleter
+	 */
+	private LocalFilesystemFileDeleter $deleter;
 	
-	public function __construct(ParameterBagInterface $params)
+	public function __construct(ParameterBagInterface $params, LocalFilesystemFileDeleter $deleter)
 	{
 		$this->params = $params;
+		$this->deleter = $deleter;
 	}
 	
 	public function getSubscribedEvents()
@@ -27,18 +35,15 @@ class ImageSubscriber implements EventSubscriber
 	
 	public function preRemove(LifecycleEventArgs $args)
 	{
-		$filesystem = new Filesystem();
 		$entity = $args->getObject();
 		
 		if ($entity instanceof Trick && $entity->getHeaderImage() !== 'default.jpg') {
-			$filesystem->remove(
-				$this->params->get('header_directory') . '/' . $entity->getHeaderImage()
-			);
+			$headerImage = $this->params->get('header_directory') . '/' . $entity->getHeaderImage();
+			$this->deleter->delete($headerImage);
 		}
 		if ($entity instanceof Image) {
-			$filesystem->remove(
-				$this->params->get('images_directory') . '/' . $entity->getName()
-			);
+			$image = $this->params->get('images_directory') . '/' . $entity->getName();
+			$this->deleter->delete($image);
 		}
 	}
 }

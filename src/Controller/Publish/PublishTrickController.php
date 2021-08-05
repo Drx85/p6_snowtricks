@@ -4,16 +4,16 @@
 namespace App\Controller\Publish;
 
 
+use App\Controller\BaseController;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PublishTrickController extends AbstractController
+class PublishTrickController extends BaseController
 {
 	/**
 	 * @Route("/publish/trick/create", name="publish.trick.new")
@@ -31,23 +31,10 @@ class PublishTrickController extends AbstractController
 		
 		if ($form->isSubmitted() && $form->isValid()) {
 			$images = $form->get('images')->getData();
-			foreach ($images as $image) {
-				$file = md5(uniqid()) . '.' . $image->guessExtension();
-				$image->move(
-					$this->getParameter('images_directory'),
-					$file
-				);
-			$img = new Image();
-			$img->setName($file);
-			$trick->addImage($img);
-			}
+			$this->addImage($images, $trick);
 			$headerImage = $form->get('headerImage')->getData();
 			if ($headerImage) {
-				$file = md5(uniqid()) . '.' . $headerImage->guessExtension();
-				$headerImage->move(
-					$this->getParameter('header_directory'),
-					$file
-				);
+				$file = $this->addHeaderImage($headerImage);
 			} else {
 				$file = 'default.jpg';
 			}
