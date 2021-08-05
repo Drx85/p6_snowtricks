@@ -25,9 +25,9 @@
 		{% if is_granted('ROLE_USER') %}
 			<a href="{{ path('publish.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer un nouveau trick</a>
 		{% endif %}
-		<div class="row flex">
+		<div class="row row-cols-5">
 			{% for trick in tricks %}
-				<div class="col-3">
+				<div class="col mt-4">
 					<div class="card">
 						{% if trick.headerImage %}
 							<img src="{{ asset('/uploads/images/header/' ~ trick.headerImage) }}" alt="Header-Image">
@@ -49,6 +49,10 @@
 				</div>
 			{% endfor %}
 		</div>
+		
+		{% if next < tricks|length %}
+			<a href="{{ path('home', { offset: next }) }}">Next</a>
+		{% endif %}
 	</div>
 
 {% endblock %}
