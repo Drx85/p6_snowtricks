@@ -22,13 +22,14 @@ class HomeController extends AbstractController
 	 */
 	public function index(TrickRepository $repository, Request $request): Response
 	{
-		$offset = max(0, $request->query->getInt('offset', 0));
+		$offset = max(TrickRepository::PAGINATOR_PER_PAGE, $request->query->getInt('offset', TrickRepository::PAGINATOR_PER_PAGE));
+		
 		$paginator = $repository->getTrickPaginator($offset);
 		
 		$tricks = $paginator;
 		return $this->render('pages/home.html.twig',[
 			'tricks' => $tricks,
-			'next' => min(count($paginator), $offset + TrickRepository::PAGINATOR_PER_PAGE),
+			'next' => $offset+TrickRepository::PAGINATOR_PER_PAGE
 		]);
 	}
 	

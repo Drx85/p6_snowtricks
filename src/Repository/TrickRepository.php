@@ -30,8 +30,7 @@ class TrickRepository extends ServiceEntityRepository
 	public function getTrickPaginator(int $offset): Paginator
     {
         $query = $this->createQueryBuilder('t')
-            ->setMaxResults(self::PAGINATOR_PER_PAGE)
-            ->setFirstResult($offset)
+            ->setMaxResults($offset)
 			->orderBy('t.id')
             ->getQuery();
         return new Paginator($query);

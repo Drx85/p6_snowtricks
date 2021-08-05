@@ -3,14 +3,18 @@
 {% block body %}
 	
 	<div class="container mt-4">
-		<h1>Editer le trick</h1>
+		<h1>Editer la figure</h1>
 		{{ include ('admin/trick/_form.html.twig') }}
-		<h3 class="mt-3">Supprimer des miniatures</h3>
+		
+		{% if trick.images.0 is defined %}
+			<h3 class="mt-3">Supprimer des miniatures</h3>
+		{% endif %}
+		
 		{% for image in trick.images %}
 			<div>
 				<img src="{{ asset('/uploads/images/' ~ image.name) }}" alt="Image" width="150">
 				<a href="{{ path('admin.image.delete', {id: image.id}) }}"
-				data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
+				   data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
 			</div>
 		{% endfor %}
 	</div>

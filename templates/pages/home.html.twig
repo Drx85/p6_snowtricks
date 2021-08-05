@@ -9,7 +9,7 @@
 	</div>
 	
 	<div class="container">
-		<h2>Tous les tricks</h2>
+		<h2>Toutes les figures</h2>
 		
 		{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.verified is same as false %}
 			<p class="text-warning">Pensez à valider votre compte en cliquant sur le lien reçu sur {{ app.user.email }} pour bénéficier de toutes les fonctionnalités de votre compte (création de
@@ -23,7 +23,7 @@
 		{% endfor %}
 		
 		{% if is_granted('ROLE_USER') %}
-			<a href="{{ path('publish.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer un nouveau trick</a>
+			<a href="{{ path('publish.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer une nouvelle figure</a>
 		{% endif %}
 		<div class="row row-cols-5">
 			{% for trick in tricks %}
@@ -49,10 +49,15 @@
 				</div>
 			{% endfor %}
 		</div>
-		
-		{% if next < tricks|length %}
-			<a href="{{ path('home', { offset: next }) }}">Next</a>
+
+		{% if next -15 < tricks|length %}
+			<div class="text-center">
+				<a href="{{ path('home', { offset: next }) }}">
+					<btn class="btn btn-primary mt-4">Charger plus</btn>
+				</a>
+			</div>
 		{% endif %}
+	
 	</div>
 
 {% endblock %}
