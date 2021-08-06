@@ -17,12 +17,28 @@
 				   data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
 			</div>
 		{% endfor %}
+		
+		{% if trick.videos.0 is defined %}
+			<h3 class="mt-3">Supprimer des vidéos</h3>
+		{% endif %}
+		
+		{% for video in trick.videos %}
+			
+			<div>
+			{{ video.link }}
+			<a href="{{ path('admin.video.delete', {id: video.id}) }}"
+			   data-delete data-token="{{ csrf_token('delete' ~ video.id) }}">Supprimer</a>
+			</div>
+		
+		{% endfor %}
+	
+	
 	</div>
 
 {% endblock %}
 
 {% block javascripts %}
-	<script src="{{ asset('js/images.js') }}"></script>
+	<script src="{{ asset('js/media.js') }}"></script>
 {% endblock %}
 
 

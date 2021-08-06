@@ -50,9 +50,14 @@ class ImageSubscriber implements EventSubscriber
 	
 	public function preUpdate(PreUpdateEventArgs $args)
 	{
-		if ($args->getObject() instanceof Trick && $args->getOldValue('headerImage') !== 'default.jpg') {
-			$oldHeaderImagePath = $this->params->get('header_directory') . '/' . $args->getOldValue('headerImage');
-			$this->deleter->delete($oldHeaderImagePath);
+		if ($args->hasChangedField('headerImage')) {
+			if ($args->getObject() instanceof Trick && $args->getOldValue('headerImage') !== 'default.jpg') {
+				$oldHeaderImagePath = $this->params->get('header_directory') . '/' . $args->getOldValue('headerImage');
+				$this->deleter->delete($oldHeaderImagePath);
+			}
+		}
+		if ($args->getObject() instanceof Trick) {
+			$args->getObject()->setUpdatedAt(new \DateTimeImmutable());
 		}
 	}
 }

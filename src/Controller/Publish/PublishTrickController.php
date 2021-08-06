@@ -5,8 +5,8 @@ namespace App\Controller\Publish;
 
 
 use App\Controller\BaseController;
-use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\TrickType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,12 +39,13 @@ class PublishTrickController extends BaseController
 				$file = 'default.jpg';
 			}
 			$trick->setHeaderImage($file);
+			$videoLink = $form->get('videos')->getData();
+			if ($videoLink) $this->addVideo($videoLink, $trick);
 			$em->persist($trick);
 			$em->flush();
 			$this->addFlash('success', 'Figure créée avec succès.');
 			return $this->redirectToRoute('home');
 		}
-		
 		return $this->render('publish/new.html.twig', [
 			'trick' => $trick,
 			'form'  => $form->createView()

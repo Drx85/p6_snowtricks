@@ -63,120 +63,126 @@ class Trick
 	 * @ORM\Column(type="string")
 	 */
 	private $headerImage;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
+     */
+    private $videos;
 	
 	public function __construct()
-	{
-		$this->created_at = new \DateTimeImmutable();
-		$this->images = new ArrayCollection();
-	}
+               	{
+               		$this->created_at = new \DateTimeImmutable();
+               		$this->images = new ArrayCollection();
+                 $this->videos = new ArrayCollection();
+               	}
 	
 	public function getId(): ?int
-	{
-		return $this->id;
-	}
+               	{
+               		return $this->id;
+               	}
 	
 	public function getTitle(): ?string
-	{
-		return $this->title;
-	}
+               	{
+               		return $this->title;
+               	}
 	
 	public function setTitle(string $title): self
-	{
-		$this->title = $title;
-		
-		return $this;
-	}
+               	{
+               		$this->title = $title;
+               		
+               		return $this;
+               	}
 	
 	public function getSlug(): string
-	{
-		return strtolower((new AsciiSlugger())->slug($this->title));
-	}
+               	{
+               		return strtolower((new AsciiSlugger())->slug($this->title));
+               	}
 	
 	public function getDescription(): ?string
-	{
-		return $this->description;
-	}
+               	{
+               		return $this->description;
+               	}
 	
 	public function setDescription(string $description): self
-	{
-		$this->description = $description;
-		
-		return $this;
-	}
+               	{
+               		$this->description = $description;
+               		
+               		return $this;
+               	}
 	
 	public function getCreatedAt(): ?\DateTimeImmutable
-	{
-		return $this->created_at;
-	}
+               	{
+               		return $this->created_at;
+               	}
 	
 	public function setCreatedAt(\DateTimeImmutable $created_at): self
-	{
-		$this->created_at = $created_at;
-		
-		return $this;
-	}
+               	{
+               		$this->created_at = $created_at;
+               		
+               		return $this;
+               	}
 	
 	public function getUpdatedAt(): ?\DateTimeImmutable
-	{
-		return $this->updated_at;
-	}
+               	{
+               		return $this->updated_at;
+               	}
 	
 	public function setUpdatedAt(?\DateTimeImmutable $updated_at): self
-	{
-		$this->updated_at = $updated_at;
-		
-		return $this;
-	}
+               	{
+               		$this->updated_at = $updated_at;
+               		
+               		return $this;
+               	}
 	
 	public function getCategory(): ?Category
-	{
-		return $this->category;
-	}
+               	{
+               		return $this->category;
+               	}
 	
 	public function setCategory(?Category $category): self
-	{
-		$this->category = $category;
-		
-		return $this;
-	}
+               	{
+               		$this->category = $category;
+               		
+               		return $this;
+               	}
 	
 	/**
 	 * @return Collection|Image[]
 	 */
 	public function getImages(): Collection
-	{
-		return $this->images;
-	}
+               	{
+               		return $this->images;
+               	}
 	
 	public function addImage(Image $image): self
-	{
-		if (!$this->images->contains($image)) {
-			$this->images[] = $image;
-			$image->setTrick($this);
-		}
-		
-		return $this;
-	}
+               	{
+               		if (!$this->images->contains($image)) {
+               			$this->images[] = $image;
+               			$image->setTrick($this);
+               		}
+               		
+               		return $this;
+               	}
 	
 	public function removeImage(Image $image): self
-	{
-		if ($this->images->removeElement($image)) {
-			// set the owning side to null (unless already changed)
-			if ($image->getTrick() === $this) {
-				$image->setTrick(null);
-			}
-		}
-		
-		return $this;
-	}
+               	{
+               		if ($this->images->removeElement($image)) {
+               			// set the owning side to null (unless already changed)
+               			if ($image->getTrick() === $this) {
+               				$image->setTrick(null);
+               			}
+               		}
+               		
+               		return $this;
+               	}
 	
 	/**
 	 * @return mixed
 	 */
 	public function getHeaderImage()
-	{
-		return $this->headerImage;
-	}
+               	{
+               		return $this->headerImage;
+               	}
 	
 	/**
 	 * @param mixed $headerImage
@@ -184,8 +190,38 @@ class Trick
 	 * @return Trick
 	 */
 	public function setHeaderImage($headerImage)
-	{
-		$this->headerImage = $headerImage;
-		return $this;
-	}
+               	{
+               		$this->headerImage = $headerImage;
+               		return $this;
+               	}
+
+    /**
+     * @return Collection|Video[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Video $video): self
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getTrick() === $this) {
+                $video->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Image;
+use App\Entity\Video;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
@@ -37,5 +38,16 @@ class BaseController extends AbstractController
 			$file
 		);
 		return $file;
+	}
+	
+	protected function addVideo($links, $trick)
+	{
+		$links = explode(",", $links);
+		foreach ($links as $link) {
+			$video = new Video();
+			$video->setLink($link);
+			$trick->addVideo($video);
+		}
+		
 	}
 }

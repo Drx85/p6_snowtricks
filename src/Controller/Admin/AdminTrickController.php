@@ -5,8 +5,9 @@ namespace App\Controller\Admin;
 
 
 use App\Controller\BaseController;
-use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\Image;
+use App\Entity\Video;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -63,12 +64,12 @@ class AdminTrickController extends BaseController
 				$file = $this->addHeaderImage($headerImage);
 				$trick->setHeaderImage($file);
 			}
-			$trick->setUpdatedAt(new \DateTimeImmutable());
+			$videoLink = $form->get('videos')->getData();
+			if ($videoLink) $this->addVideo($videoLink, $trick);
 			$this->em->flush();
 			$this->addFlash('success', 'Figure modifiée avec succès.');
 			return $this->redirectToRoute('home');
 		}
-		
 		return $this->render('admin/trick/edit.html.twig', [
 			'trick' => $trick,
 			'form'  => $form->createView()
@@ -107,6 +108,24 @@ class AdminTrickController extends BaseController
 			$name = $image->getName();
 			unlink($this->getParameter('images_directory') . '/' . $name);
 			$this->em->remove($image);
+			$this->em->flush();
+			return new JsonResponse(['success' => 1]);
+		}
+		return new JsonResponse(['error' => 'invalid_token'], 400);
+	}
+	
+	/**
+	 * @Route("/admin/delete/video/{id}", name="admin.video.delete", methods={"DELETE"})
+	 * @param Video   $video
+	 * @param Request $request
+	 *
+	 * @return JsonResponse
+	 */
+	public function deleteVideo(Video $video, Request $request)
+	{
+		$data = json_decode($request->getContent(), true);
+		if ($this->isCsrfTokenValid('delete' . $video->getId(), $data['_token'])) {
+			$this->em->remove($video);
 			$this->em->flush();
 			return new JsonResponse(['success' => 1]);
 		}
