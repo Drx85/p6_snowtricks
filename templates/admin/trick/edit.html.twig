@@ -23,13 +23,12 @@
 		{% endif %}
 		
 		{% for video in trick.videos %}
-			
 			<div>
-			{{ video.link }}
-			<a href="{{ path('admin.video.delete', {id: video.id}) }}"
-			   data-delete data-token="{{ csrf_token('delete' ~ video.id) }}">Supprimer</a>
+				<iframe width="400" height="250" src="{{ video.link }}" frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<a href="{{ path('admin.video.delete', {id: video.id}) }}"
+				   data-delete data-token="{{ csrf_token('delete' ~ video.id) }}">Supprimer</a>
 			</div>
-		
 		{% endfor %}
 	
 	

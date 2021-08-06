@@ -4,18 +4,16 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Trick;
-use App\Entity\Video;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Url;
 
 class TrickType extends AbstractType
 {
@@ -29,10 +27,13 @@ class TrickType extends AbstractType
 				'multiple'     => false
 			])
 			->add('description')
-			->add('videos', TextType::class, [
+			->add('videos', TextAreaType::class, [
 				'mapped' => false,
 				'required' => false,
-				'label' => 'Ajouter des liens vidéos YouTube (séparés par une virgule)',
+				'label' => 'Ajouter des liens vidéos YouTube ou Dailymotion (séparés par une virgule, sans espace)',
+				'constraints' => [
+					new Url()
+				]
 			])
 			->add('headerImage', FileType::class, [
 				'required'    => false,

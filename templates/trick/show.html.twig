@@ -15,24 +15,22 @@
 				(Modifié le {{ trick.updatedAt | date('d/m/Y') }})
 			{% endif %}
 		</p>
-	
-	
-	<div class="row">
-		{% for image in trick.images %}
-			<div class="col">
-				<img src="{{ asset('/uploads/images/' ~ image.name) }}" alt="Image">
-			</div>
-		{% endfor %}
 		
-		{% for video in trick.videos %}
+		
+		<div class="row">
+			{% for image in trick.images %}
+				<div class="col">
+					<img src="{{ asset('/uploads/images/' ~ image.name) }}" alt="Image">
+				</div>
+			{% endfor %}
 			
-			<div class="col">
-				<iframe width="400" height="250" src="{{ video.link }}" title="YouTube video player" frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			</div>
-		
-		{% endfor %}
-	</div>
+			{% for video in trick.videos %}
+					<div class="col">
+						<iframe width="400" height="250" src="{{ video.link }}" frameborder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					</div>
+			{% endfor %}
+		</div>
 	</div>
 
 {% endblock %}
