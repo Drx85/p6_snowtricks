@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Video;
+use App\Service\EmbedYoutubeUrl;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BaseController extends AbstractController
@@ -40,12 +41,14 @@ class BaseController extends AbstractController
 		return $file;
 	}
 	
-	protected function addVideo($links, $trick)
+	protected function addVideo($urls, $trick)
 	{
-		$links = explode(",", $links);
-		foreach ($links as $link) {
+		$urls = explode(",", $urls);
+		$parser = new EmbedYoutubeUrl();
+		foreach ($urls as $url) {
+			$url = $parser->embedLink($url);
 			$video = new Video();
-			$video->setLink($link);
+			$video->setLink($url);
 			$trick->addVideo($video);
 		}
 		
