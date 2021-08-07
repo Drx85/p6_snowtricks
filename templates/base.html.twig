@@ -40,9 +40,10 @@
 			</ul>
 			<ul class="navbar-nav ms-auto">
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-					<span class="navbar-text text-white-90">
+		
+						<a class="nav-link" href="{{ path('user.edit', {id: app.user.id}) }}">
       			{{ app.user.username }} ({{ app.user.roles.0 }})
-    		</span>
+						</a>
 					<li>
 						<a class="nav-link text-white" href="{{ path('app_logout') }}">Se déconnecter</a>
 					</li>

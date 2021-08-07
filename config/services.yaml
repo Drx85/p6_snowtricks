@@ -6,6 +6,7 @@
 parameters:
   images_directory: '%kernel.project_dir%/public/uploads/images'
   header_directory: '%kernel.project_dir%/public/uploads/images/header'
+  user_picture_directory: '%kernel.project_dir%/public/uploads/images/user'
 
 services:
     # default configuration for services in *this* file
@@ -30,6 +31,10 @@ services:
       resource: '../src/Controller'
       tags: ['controller.service_arguments']
 
-    App\Listener\ImageSubscriber:
+    App\Listener\MediaSubscriber:
+      tags:
+        - { name: doctrine.event_subscriber }
+
+    App\Listener\DateSubscriber:
       tags:
         - { name: doctrine.event_subscriber }

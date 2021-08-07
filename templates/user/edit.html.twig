@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	
+	<div class="container mt-4">
+		<h1>Modifier mon profil</h1>
+		
+		<h3 class="mt-5 mb-4">Ajouter ou modifier mon avatar</h3>
+		
+		{% if user.picture %}
+			<img src="{{ asset('/uploads/images/user/' ~ user.picture) }}" class="mb-3" alt="Avatar">
+		{% else %}
+			<img src="{{ asset('/uploads/images/user/default.jpg') }}" class="mb-3" alt="Avatar">
+		{% endif %}
+		
+		{% form_theme form 'bootstrap_5_layout.html.twig' %}
+		{{ form_start(form) }}
+		<div class="row">
+			<div class="col col-md-4">{{ form_row(form.picture) }}</div>
+		</div>
+		{{ form_rest(form) }}
+		<button class="btn btn-primary">Valider</button>
+		{{ form_end(form) }}
+		
+		
+		
+		{#{% for image in trick.images %}
+			<div>
+				<img src="{{ asset('/uploads/images/' ~ image.name) }}" alt="Image" width="150">
+				<a href="{{ path('admin.image.delete', {id: image.id}) }}"
+				   data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
+			</div>
+		{% endfor %}
+		
+		{% if trick.videos.0 is defined %}
+			<h3 class="mt-3">Supprimer des vidéos</h3>
+		{% endif %}
+		
+		{% for video in trick.videos %}
+			<div>
+				<iframe width="400" height="250" src="{{ video.link }}" frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<a href="{{ path('admin.video.delete', {id: video.id}) }}"
+				   data-delete data-token="{{ csrf_token('delete' ~ video.id) }}">Supprimer</a>
+			</div>
+		{% endfor %}#}
+	
+	
+	</div>
+
+{% endblock %}

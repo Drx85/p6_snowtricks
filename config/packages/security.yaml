@@ -36,6 +36,7 @@ security:
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN, allow_if: user.isVerified() == true }
          - { path: ^/publish, roles: ROLE_USER, allow_if: user.isVerified() == true }
+         - { path: ^/user, roles: ROLE_USER, allow_if: user.isVerified() == true }
 
     access_decision_manager:
       strategy: unanimous

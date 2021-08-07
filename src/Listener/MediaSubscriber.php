@@ -6,13 +6,14 @@ namespace App\Listener;
 
 use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\User;
 use App\Service\LocalFilesystemFileDeleter;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class ImageSubscriber implements EventSubscriber
+class MediaSubscriber implements EventSubscriber
 {
 	/**
 	 * @var ParameterBagInterface
@@ -56,8 +57,10 @@ class ImageSubscriber implements EventSubscriber
 				$this->deleter->delete($oldHeaderImagePath);
 			}
 		}
-		if ($args->getObject() instanceof Trick) {
-			$args->getObject()->setUpdatedAt(new \DateTimeImmutable());
+		
+		if ($args->getObject() instanceof User && ($args->getOldValue('picture'))) {
+			$oldUserPicturePath = $this->params->get('user_picture_directory') . '/' . $args->getOldValue('picture');
+			$this->deleter->delete($oldUserPicturePath);
 		}
 	}
 }
