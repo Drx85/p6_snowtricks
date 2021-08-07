@@ -46,7 +46,7 @@ class PublishTrickController extends BaseController
 			$this->addFlash('success', 'Figure créée avec succès.');
 			return $this->redirectToRoute('home');
 		}
-		return $this->render('publish/new.html.twig', [
+		return $this->render('publish/new_trick.html.twig', [
 			'trick' => $trick,
 			'form'  => $form->createView()
 		]);

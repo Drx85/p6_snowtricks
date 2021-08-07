@@ -25,12 +25,24 @@
 			{% endfor %}
 			
 			{% for video in trick.videos %}
-					<div class="col">
-						<iframe width="400" height="250" src="{{ video.link }}" frameborder="0"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-					</div>
+				<div class="col">
+					<iframe width="400" height="250" src="{{ video.link }}" frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				</div>
 			{% endfor %}
 		</div>
+		
+		{% form_theme form 'bootstrap_5_layout.html.twig' %}
+		{{ form_start(form) }}
+		{{ form_rest(form) }}
+		<button class="btn btn-primary">Valider</button>
+		{{ form_end(form) }}
+		
+		{% for comment in comments %}
+			{{ comment.message }}
+			{{ comment.user.username }}
+			{{ comment.createdAt | date('d/m/Y') }}
+		{% endfor %}
 	</div>
 
 {% endblock %}
