@@ -22,7 +22,7 @@
 			</div>
 		{% endfor %}
 		
-		{% if is_granted('ROLE_USER') %}
+		{% if is_granted('ROLE_USER') and app.user.verified is same as true %}
 			<a href="{{ path('publish.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer une nouvelle figure</a>
 		{% endif %}
 		<div class="row row-cols-5">

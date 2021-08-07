@@ -61,6 +61,7 @@ class TrickController extends AbstractController
 		$form = $this->createForm(CommentType::class, $comment);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
+			$this->denyAccessUnlessGranted('ROLE_USER');
 			$comment->setUser($this->getUser());
 			$comment->setTrick($trick);
 			$em->persist($comment);
