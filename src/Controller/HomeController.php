@@ -34,7 +34,7 @@ class HomeController extends AbstractController
 		$tricks = $paginator;
 		return $this->render('pages/home.html.twig',[
 			'tricks' => $tricks,
-			'next' => $offset+TrickRepository::PAGINATOR_PER_PAGE,
+			'next' => $offset+TrickRepository::PAGINATOR_PER_PAGE
 		]);
 	}
 	

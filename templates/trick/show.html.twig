@@ -50,6 +50,14 @@
 				<img src="{{ asset('/uploads/images/user/default.jpg') }}" class="mb-3" alt="Avatar">
 			{% endif %}
 		{% endfor %}
+
+		{% if next -10 < comments|length %}
+			<div class="text-center">
+				<a href="{{ path('trick.show', {offset: next, id: trick.id, slug: trick.slug}) }}">
+					<btn class="btn btn-primary mt-4">Charger plus</btn>
+				</a>
+			</div>
+		{% endif %}
 	</div>
 
 {% endblock %}

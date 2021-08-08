@@ -6,25 +6,23 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Trick;
-use App\Entity\User;
 use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
 
 class TrickController extends AbstractController
 {
 	/**
-	 * @var TrickRepository
+	 * @var CommentRepository
 	 */
-	private TrickRepository $repository;
+	private CommentRepository $repository;
 	
-	public function __construct(TrickRepository $repository)
+	public function __construct(CommentRepository $repository)
 	{
 		$this->repository = $repository;
 	}
@@ -69,11 +67,14 @@ class TrickController extends AbstractController
 			$this->addFlash('success', 'Commentaire ajouté avec succès.');
 			return $this->redirectToRoute('home');
 		}
-		$comments = $trick->getComments();
+		$offset = max(CommentRepository::PAGINATOR_PER_PAGE, $request->query->getInt('offset', CommentRepository::PAGINATOR_PER_PAGE));
+		$paginator = $this->repository->getCommentPaginator($offset);
+		$comments = $paginator;
 		return $this->render('trick/show.html.twig', [
 			'trick' => $trick,
 			'form' => $form->createView(),
-			'comments' => $comments
+			'comments' => $comments,
+			'next' => $offset+CommentRepository::PAGINATOR_PER_PAGE
 		]);
 	}
 }

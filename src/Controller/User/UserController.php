@@ -42,7 +42,7 @@ class UserController extends AbstractController
 	 *
 	 * @return Response
 	 */
-	public function edit(int $id, Request $request, UserInterface $userSession): Response
+	public function edit(int $id, Request $request): Response
 	{
 		$user = $this->repository->find($id);
 		$form = $this->createForm(UserType::class, $user);
