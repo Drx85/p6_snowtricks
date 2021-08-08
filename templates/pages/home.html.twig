@@ -25,6 +25,22 @@
 		{% if is_granted('ROLE_USER') and app.user.verified is same as true %}
 			<a href="{{ path('publish.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer une nouvelle figure</a>
 		{% endif %}
+		
+	<div class="jumbotron">
+			<div class="container">
+				{{ form_start(form) }}
+				<div class="row">
+					<div class="col">
+						{{ form_row(form.categories) }}
+					</div>
+					<div class="col">
+						<button class="btn btn-info text-white">Filtrer</button>
+					</div>
+				</div>
+				{{ form_end(form) }}
+			</div>
+	</div>
+
 		<div class="row row-cols-5">
 			{% for trick in tricks %}
 				<div class="col mt-4">
@@ -49,7 +65,7 @@
 				</div>
 			{% endfor %}
 		</div>
-
+		
 		{% if next -15 < tricks|length %}
 			<div class="text-center">
 				<a href="{{ path('home', { offset: next }) }}">

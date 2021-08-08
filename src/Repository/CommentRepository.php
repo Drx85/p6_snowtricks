@@ -31,7 +31,7 @@ class CommentRepository extends ServiceEntityRepository
 	{
 		$query = $this->createQueryBuilder('c')
 			->setMaxResults($offset)
-			->orderBy('c.created_at')
+			->orderBy('c.created_at', 'desc')
 			->getQuery();
 		return new Paginator($query);
 	}
