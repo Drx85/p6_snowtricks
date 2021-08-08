@@ -42,7 +42,7 @@
 		
 		{% for comment in comments %}
 			{{ comment.message }}
-			{{ comment.user.username }}
+			{{ comment.user.userIdentifier }}
 			{{ comment.createdAt | date('d/m/Y') }}
 			{% if comment.user.picture %}
 				<img src="{{ asset('/uploads/images/user/' ~ comment.user.picture) }}" class="mb-3" alt="Avatar">

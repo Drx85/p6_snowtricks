@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserController extends AbstractController
 {
@@ -41,10 +42,12 @@ class UserController extends AbstractController
 	 *
 	 * @return Response
 	 */
-	public function edit(int $id, Request $request): Response
+	public function edit(int $id, Request $request, UserInterface $userSession): Response
 	{
 		$user = $this->repository->find($id);
 		$form = $this->createForm(UserType::class, $user);
+		
+		$this->denyAccessUnlessGranted('user_edit', $user);
 		
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
