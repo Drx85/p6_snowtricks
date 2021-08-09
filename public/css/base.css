@@ -1,3 +1,6 @@
 .card-text {
 	text-align: justify;
 }
+#registration_form_agreeTerms {
+	float: none;
+}

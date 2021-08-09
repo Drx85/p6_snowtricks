@@ -58,9 +58,11 @@ class MediaSubscriber implements EventSubscriber
 			}
 		}
 		
-		if ($args->getObject() instanceof User && ($args->getOldValue('picture'))) {
-			$oldUserPicturePath = $this->params->get('user_picture_directory') . '/' . $args->getOldValue('picture');
-			$this->deleter->delete($oldUserPicturePath);
+		if ($args->hasChangedField('picture')) {
+			if ($args->getObject() instanceof User && $args->getOldValue('picture')) {
+				$oldUserPicturePath = $this->params->get('user_picture_directory') . '/' . $args->getOldValue('picture');
+				$this->deleter->delete($oldUserPicturePath);
+			}
 		}
 	}
 }
