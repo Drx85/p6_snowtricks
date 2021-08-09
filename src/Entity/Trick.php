@@ -27,7 +27,7 @@ class Trick
 	/**
 	 * @ORM\Column(type="string", length=255)
 	 * @Assert\NotBlank
-	 * @Assert\Length(min=5, max=255)     *
+	 * @Assert\Length(min=3, max=255)     *
 	 */
 	private $title;
 	

@@ -3,13 +3,13 @@
 {% block title 'Accueil' %}
 
 {% block body %}
-	
-	<div class="container text-center mt-4">
-		<h1>Bienvenue sur Snowtricks</h1>
+	<img src="imgs/background.jpg" alt="Image d'arrière plan">
+	<div id="arrow"><a href="#tricks"><i class="fas fa-arrow-circle-down text-dark"></i></a></div>
+	<div class="container text-center my-4">
+		<h1>— Site communautaire dédiée aux figures de snowboard —</h1>
 	</div>
-	
-	<div class="container">
-		<h2>Toutes les figures</h2>
+	<div class="container-fluide mx-5 mb-4">
+		<h2 id="tricks">Toutes les figures</h2>
 		
 		{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.verified is same as false %}
 			<p class="text-warning">Pensez à valider votre compte en cliquant sur le lien reçu sur {{ app.user.email }} pour bénéficier de toutes les fonctionnalités de votre compte (création de
@@ -22,12 +22,12 @@
 			</div>
 		{% endfor %}
 		
-		{% if is_granted('ROLE_USER') and app.user.verified is same as true %}
+		{% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.verified is same as true %}
 			<a href="{{ path('publish.trick.new') }}" class="btn btn-primary mt-2 mb-4">Créer une nouvelle figure</a>
 		{% endif %}
 		
-	<div class="jumbotron">
-			<div class="container">
+		<div class="jumbotron">
+				{% form_theme form 'bootstrap_5_layout.html.twig' %}
 				{{ form_start(form) }}
 				<div class="row">
 					<div class="col">
@@ -38,34 +38,32 @@
 					</div>
 				</div>
 				{{ form_end(form) }}
-			</div>
-	</div>
-
-		<div class="row row-cols-5">
+		</div>
+		<div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-xs-1">
 			{% for trick in tricks %}
 				<div class="col mt-4">
-					<div class="card">
+					<div class="card h-100 bg-light border-secondary">
 						{% if trick.headerImage %}
 							<img src="{{ asset('/uploads/images/header/' ~ trick.headerImage) }}" alt="Header-Image">
 						{% endif %}
 						<div class="card-body">
 							<h5 class="card-title">
-								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}">{{ trick.category.name }} | {{ trick.title }}</a>
+								<p><span class="badge bg-info">{{ trick.category.name }}</span></p>
+								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}" class="text-decoration-none text-info">{{ trick.title }}</a>
 								{% if is_granted('ROLE_ADMIN') %}
-									<a href="{{ path('admin.trick.edit', {id: trick.id}) }}"><i class="far fa-edit"></i></a>
+									<a href="{{ path('admin.trick.edit', {id: trick.id}) }}"><i class="far fa-edit text-info"></i></a>
 									<form method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
 										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
-										<button><i class="far fa-trash-alt"></i></button>
+										<button><i class="far fa-trash-alt text-info"></i></button>
 									</form>
 								{% endif %}
 							</h5>
-							<p class="card-text">{{ trick.description | nl2br }}</p>
+							<p class="card-text mt-4">{{ trick.description | u.truncate(150, '...', false) }}</p>
 						</div>
 					</div>
 				</div>
 			{% endfor %}
 		</div>
-		
 		{% if next -15 < tricks|length %}
 			<div class="text-center">
 				<a href="{{ path('home', { offset: next }) }}">
@@ -73,7 +71,19 @@
 				</a>
 			</div>
 		{% endif %}
-	
 	</div>
-
+	<script>
+		$('select').select2({
+			placeholder: "Filtrer par catégorie(s)",
+			allowClear: true
+		});
+	</script>
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="css/home.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+{% endblock %}
+{% block javascripts %}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 {% endblock %}

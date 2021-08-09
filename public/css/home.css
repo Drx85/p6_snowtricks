@@ -1,0 +1,20 @@
+.card-title form {
+	display: inline-block;
+}
+
+.card-title form button {
+	border: none;
+	background-color: white;
+	color: #0d6dfd;
+}
+
+.fa-arrow-circle-down {
+	font-size: 50px;
+}
+
+#arrow {
+	text-align: right;
+	padding-right: 2%;
+	margin-top: -100px;
+	margin-bottom: 50px;
+}
