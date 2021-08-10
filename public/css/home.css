@@ -1,15 +1,5 @@
-.card-title form {
-	display: inline-block;
-}
-
-.card-title form button {
-	border: none;
-	background-color: white;
-	color: #0d6dfd;
-}
-
-.fa-arrow-circle-down {
-	font-size: 50px;
+.card-text {
+	text-align: justify;
 }
 
 #arrow {
@@ -17,4 +7,11 @@
 	padding-right: 2%;
 	margin-top: -100px;
 	margin-bottom: 50px;
+}
+
+@media all and (max-width: 800px) {
+	#arrow {
+		margin-top: -50px;
+		margin-bottom: 0px;
+	}
 }

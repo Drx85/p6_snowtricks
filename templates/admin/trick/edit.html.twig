@@ -3,39 +3,86 @@
 {% block title 'Editer la figure' %}
 
 {% block body %}
-	
 	<div class="container mt-4">
 		<h1>Editer la figure</h1>
 		{{ include ('admin/trick/_form.html.twig') }}
 		
-		{% if trick.images.0 is defined %}
-			<h3 class="mt-3">Supprimer des miniatures</h3>
-		{% endif %}
+		<form class="d-inline" method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
+			<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
+			<button class="btn btn-danger mt-2">Supprimer la figure</button>
+		</form>
 		
-		{% for image in trick.images %}
-			<div>
-				<img src="{{ asset('/uploads/images/' ~ image.name) }}" alt="Image" width="150">
-				<a href="{{ path('admin.image.delete', {id: image.id}) }}"
-				   data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">Supprimer</a>
+		<div class="d-none d-lg-block">
+			{% if trick.images.0 is defined %}
+				<h3 class="mt-4">Supprimer des miniatures</h3>
+			{% endif %}
+			
+			{% for image in trick.images %}
+				<div class="mb-1">
+					<img src="{{ asset('/uploads/images/' ~ image.name) }}" alt="Image" width="200" class="border border-secondary">
+					<a href="{{ path('admin.image.delete', {id: image.id}) }}"
+					   data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">
+						<button class="btn btn-danger">Supprimer</button>
+					</a>
+				</div>
+			{% endfor %}
+			
+			{% if trick.videos.0 is defined %}
+				<h3 class="mt-4">Supprimer des vidéos</h3>
+			{% endif %}
+			
+			{% for video in trick.videos %}
+				<div>
+					<iframe width="400" height="250" src="{{ video.link }}" frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+							class="align-middle mt-1 border border-secondary"></iframe>
+					<a href="{{ path('admin.video.delete', {id: video.id}) }}"
+					   data-delete data-token="{{ csrf_token('delete' ~ video.id) }}">
+						<button class="btn btn-danger">Supprimer</button>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+		
+		<div class="d-lg-none mt-3">
+			<p class="text-center">
+				<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
+					Supprimer des médias
+				</button>
+			</p>
+			<div class="collapse mb-4 text-center" id="collapse">
+				{% if trick.images.0 is defined %}
+					<h3 class="mt-4">Supprimer des miniatures</h3>
+				{% endif %}
+				
+				{% for image in trick.images %}
+					<div class="mb-1">
+						<img src="{{ asset('/uploads/images/' ~ image.name) }}" alt="Image" width="200" class="border border-secondary">
+						<a href="{{ path('admin.image.delete', {id: image.id}) }}"
+						   data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">
+							<button class="btn btn-danger">Supprimer</button>
+						</a>
+					</div>
+				{% endfor %}
+				
+				{% if trick.videos.0 is defined %}
+					<h3 class="mt-4">Supprimer des vidéos</h3>
+				{% endif %}
+				
+				{% for video in trick.videos %}
+					<div>
+						<iframe width="400" height="250" src="{{ video.link }}" frameborder="0"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+								class="align-middle mt-1 border border-secondary"></iframe>
+						<a href="{{ path('admin.video.delete', {id: video.id}) }}"
+						   data-delete data-token="{{ csrf_token('delete' ~ video.id) }}">
+							<button class="btn btn-danger">Supprimer</button>
+						</a>
+					</div>
+				{% endfor %}
 			</div>
-		{% endfor %}
-		
-		{% if trick.videos.0 is defined %}
-			<h3 class="mt-3">Supprimer des vidéos</h3>
-		{% endif %}
-		
-		{% for video in trick.videos %}
-			<div>
-				<iframe width="400" height="250" src="{{ video.link }}" frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				<a href="{{ path('admin.video.delete', {id: video.id}) }}"
-				   data-delete data-token="{{ csrf_token('delete' ~ video.id) }}">Supprimer</a>
-			</div>
-		{% endfor %}
-	
-	
+		</div>
 	</div>
-
 {% endblock %}
 
 {% block javascripts %}

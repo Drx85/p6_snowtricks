@@ -150,8 +150,12 @@
 	</div>
 	<div class="fixed-bottom bg-info d-flex justify-content-around display-6 d-lg-none">
 		<a href="{{ path('home') }}" class="text-white text-decoration-none"><i class="fas fa-home"></i></a>
-		<a href="{{ path('home') }}" class="text-white text-decoration-none"><i class="far fa-bookmark"></i></a>
-		<a href="{{ path('app_logout') }}" class="text-white text-decoration-none"><i class="fas fa-sign-out-alt"></i></a>
+		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+			<a href="{{ path('user.edit', {id: app.user.id}) }}" class="text-white text-decoration-none"><i class="fas fa-user-edit"></i></a>
+			<a href="{{ path('app_logout') }}" class="text-white text-decoration-none"><i class="fas fa-sign-out-alt"></i></a>
+		{% else %}
+			<a href="{{ path('app_login') }}" class="text-white text-decoration-none"><i class="fas fa-sign-in-alt"></i></a>
+		{% endif %}
 	</div>
 </footer>
 </body>

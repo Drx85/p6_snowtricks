@@ -4,7 +4,7 @@
 
 {% block body %}
 	<img src="imgs/background.jpg" alt="Image d'arrière plan">
-	<div id="arrow"><a href="#tricks"><i class="fas fa-arrow-circle-down text-dark"></i></a></div>
+	<div id="arrow"><a href="#tricks" class="h1"><i class="fas fa-arrow-circle-down text-dark"></i></a></div>
 	<div class="container text-center my-4">
 		<h1>— Site communautaire dédiée aux figures de snowboard —</h1>
 	</div>
@@ -27,17 +27,17 @@
 		{% endif %}
 		
 		<div class="jumbotron">
-				{% form_theme form 'bootstrap_5_layout.html.twig' %}
-				{{ form_start(form) }}
-				<div class="row">
-					<div class="col">
-						{{ form_row(form.categories) }}
-					</div>
-					<div class="col">
-						<button class="btn btn-info text-white">Filtrer</button>
-					</div>
+			{% form_theme form 'bootstrap_5_layout.html.twig' %}
+			{{ form_start(form) }}
+			<div class="row">
+				<div class="col">
+					{{ form_row(form.categories) }}
 				</div>
-				{{ form_end(form) }}
+				<div class="col">
+					<button class="btn btn-info text-white">Filtrer</button>
+				</div>
+			</div>
+			{{ form_end(form) }}
 		</div>
 		<div class="row row-cols-xxl-5 row-cols-xl-4 row-cols-lg-3 row-cols-lg-3">
 			{% for trick in tricks %}
@@ -52,9 +52,9 @@
 								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}" class="text-decoration-none text-info">{{ trick.title }}</a>
 								{% if is_granted('ROLE_ADMIN') %}
 									<a href="{{ path('admin.trick.edit', {id: trick.id}) }}"><i class="far fa-edit text-info"></i></a>
-									<form method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
+									<form class="d-inline" method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
 										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
-										<button><i class="far fa-trash-alt text-info"></i></button>
+										<button class="border-0 bg-light"><i class="far fa-trash-alt text-info"></i></button>
 									</form>
 								{% endif %}
 							</h5>
@@ -69,6 +69,9 @@
 				<a href="{{ path('home', { offset: next }) }}">
 					<btn class="btn btn-primary mt-4">Charger plus</btn>
 				</a>
+			</div>
+			<div class="text-end">
+				<a href="#tricks" class="h1"><i class="fas fa-arrow-circle-up text-dark"></i></a>
 			</div>
 		{% endif %}
 	</div>
