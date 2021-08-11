@@ -23,6 +23,18 @@ class CommentRepository extends ServiceEntityRepository
     }
 	
 	/**
+	 * @return Paginator
+	 */
+	public function getFirstComments(): Paginator
+	{
+		$query = $this->createQueryBuilder('c')
+			->setMaxResults(self::PAGINATOR_PER_PAGE)
+			->orderBy('c.created_at', 'desc')
+			->getQuery();
+		return new Paginator($query);
+	}
+	
+	/**
 	 * @param int        $offset
 	 *
 	 * @return Paginator
@@ -30,7 +42,8 @@ class CommentRepository extends ServiceEntityRepository
 	public function getCommentPaginator(int $offset): Paginator
 	{
 		$query = $this->createQueryBuilder('c')
-			->setMaxResults($offset)
+			->setFirstResult($offset)
+			->setMaxResults(self::PAGINATOR_PER_PAGE)
 			->orderBy('c.created_at', 'desc')
 			->getQuery();
 		return new Paginator($query);

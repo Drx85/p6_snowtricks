@@ -130,14 +130,22 @@
 				{% endfor %}
 			</ul>
 		</div>
-		
-		{% if next -10 < comments|length %}
-			<div class="text-center">
-				<a href="{{ path('trick.show', {offset: next, id: trick.id, slug: trick.slug}) }}">
-					<btn class="btn btn-primary mt-4">Charger plus</btn>
-				</a>
-			</div>
-		{% endif %}
+		<div class="col-md-12">
+			<ul class="list-unstyled">
+				{% for comment in comments %}
+					<div id="comments">
+					</div>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="text-center">
+			<a href="{{ path('trick.comments.show', {id: trick.id, slug: trick.slug}) }}" data-load>
+				<btn class="btn btn-primary mt-4" onclick="increment();">Charger plus</btn>
+			</a>
+		</div>
 	</div>
+{% endblock %}
 
+{% block javascripts %}
+	<script src="{{ asset('js/load_comments.js') }}"></script>
 {% endblock %}
