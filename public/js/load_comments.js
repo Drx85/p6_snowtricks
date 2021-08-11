@@ -1,12 +1,12 @@
-const PaginatorPerPage = 10
+const PaginatorPerPage = 10;
 let offset = 0;
 function increment() {
-	offset = offset + PaginatorPerPage
+	offset = offset + PaginatorPerPage;
 }
 window.onload = () => {
-	let link = document.querySelector("[data-load]")
+	let link = document.querySelector("[data-load]");
 	link.addEventListener("click", function (e) {
-		e.preventDefault()
+		e.preventDefault();
 		fetch(this.getAttribute("href"), {
 			method: "POST",
 			headers: {
@@ -15,16 +15,17 @@ window.onload = () => {
 			},
 			body: JSON.stringify({"offset": offset})
 		}).then(
-			response => response.json()
-		).then(data => {
+			(response) => response.json()
+		).then((data) => {
 			for (c of data.comments) {
-				const container = document.getElementById('comments');
+				const container = document.getElementById("comments");
 				
-				const timestamp = c.created_at * 1000
-				const dateObject = new Date(timestamp)
-				const dateFormat = dateObject.toLocaleDateString()
+				const timestamp = c.created_at * 1000;
+				const dateObject = new Date(timestamp);
+				const dateFormat = dateObject.toLocaleDateString();
 				
-				if (!c.userPicture) c.userPicture = 'default.jpg'
+				if (!c.userPicture)
+					c.userPicture = "default.jpg";
 				
 				container.innerHTML +=
 					'<li>' +
@@ -38,9 +39,9 @@ window.onload = () => {
 							'</div>' +
 						'</div>' +
 					'</li>';
-				if (data.comments.length < PaginatorPerPage) this.parentElement.remove()
+				if (data.comments.length < PaginatorPerPage)
+					this.parentElement.remove();
 			}
-		}).catch(e => alert(e))
-		
-	})
+		}).catch(e => alert(e));
+	});
 }
