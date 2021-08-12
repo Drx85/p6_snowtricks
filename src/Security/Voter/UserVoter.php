@@ -15,26 +15,20 @@ class UserVoter extends Voter
 	
 	protected function supports(string $attribute, $subject): bool
 	{
-		if (!in_array($attribute, [self::USER_EDIT])) {
-			return false;
-		}
-		if (!$subject instanceof User) {
-			return false;
-		}
+		if (!in_array($attribute, [self::USER_EDIT])) return false;
+		if (!$subject instanceof User) return false;
 		return true;
 	}
 	
 	protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
 	{
 		$userSession = $token->getUser();
-		if (!$userSession instanceof UserInterface) {
-			return false;
-		}
+		if (!$userSession instanceof UserInterface) return false;
 		$user = $subject;
 		return $this->canEdit($user, $userSession);
 	}
 	
-	private function canEdit(User $user, UserInterface $userSession)
+	private function canEdit(User $user, UserInterface $userSession): bool
 	{
 		return $user->getUserIdentifier() === $userSession->getUserIdentifier();
 	}

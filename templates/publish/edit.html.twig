@@ -5,7 +5,7 @@
 {% block body %}
 	<div class="container mt-4">
 		<h1>Editer la figure</h1>
-		{{ include ('admin/trick/_form.html.twig') }}
+		{{ include ('publish/_form.html.twig') }}
 		
 		<form class="d-inline" method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
 			<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">

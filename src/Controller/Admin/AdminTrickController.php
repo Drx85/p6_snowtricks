@@ -35,48 +35,6 @@ class AdminTrickController extends BaseController
 	}
 	
 	/**
-	 * @Route("/admin", name="admin.trick.index")
-	 * @return Response
-	 */
-	public function index()
-	{
-		$tricks = $this->repository->findAll();
-		return $this->render('admin/trick/index.html.twig', compact('tricks'));
-	}
-	
-	/**
-	 * @Route("/admin/edit/trick/{id}", name="admin.trick.edit")
-	 * @param Trick   $trick
-	 * @param Request $request
-	 *
-	 * @return Response
-	 */
-	public function edit(Trick $trick, Request $request)
-	{
-		$form = $this->createForm(TrickType::class, $trick);
-		$form->handleRequest($request);
-		
-		if ($form->isSubmitted() && $form->isValid()) {
-			$images = $form->get('images')->getData();
-			$this->addImage($images, $trick);
-			$headerImage = $form->get('headerImage')->getData();
-			if ($headerImage) {
-				$file = $this->addHeaderImage($headerImage);
-				$trick->setHeaderImage($file);
-			}
-			$videoLink = $form->get('videos')->getData();
-			if ($videoLink) $this->addVideo($videoLink, $trick);
-			$this->em->flush();
-			$this->addFlash('success', 'Figure modifiée avec succès.');
-			return $this->redirectToRoute('home');
-		}
-		return $this->render('admin/trick/edit.html.twig', [
-			'trick' => $trick,
-			'form'  => $form->createView()
-		]);
-	}
-	
-	/**
 	 * @Route("/admin/delete/trick/{id}", name="admin.trick.delete")
 	 * @param Trick   $trick
 	 *

@@ -50,8 +50,10 @@
 							<h5 class="card-title">
 								<p><span class="badge bg-info">{{ trick.category.name }}</span></p>
 								<a href="{{ path('trick.show', {id: trick.id, slug: trick.slug}) }}" class="text-decoration-none text-info">{{ trick.title }}</a>
+								{% if is_granted('trick_edit', trick) %}
+									<a href="{{ path('publish.trick.edit', {id: trick.id}) }}"><i class="far fa-edit text-info"></i></a>
+								{% endif %}
 								{% if is_granted('ROLE_ADMIN') %}
-									<a href="{{ path('admin.trick.edit', {id: trick.id}) }}"><i class="far fa-edit text-info"></i></a>
 									<form class="d-inline" method="post" action="{{ path('admin.trick.delete', {id: trick.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
 										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
 										<button class="border-0 bg-light"><i class="far fa-trash-alt text-info"></i></button>
