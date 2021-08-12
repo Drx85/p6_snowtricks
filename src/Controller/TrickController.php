@@ -68,7 +68,7 @@ class TrickController extends AbstractController
 			$this->addFlash('success', 'Commentaire ajouté avec succès.');
 			return $this->redirectToRoute('home');
 		}
-		$comments = $this->repository->getFirstComments();
+		$comments = $this->repository->getFirstComments($trick->getId());
 		return $this->render('trick/show.html.twig', [
 			'trick'    => $trick,
 			'form'     => $form->createView(),
@@ -77,16 +77,18 @@ class TrickController extends AbstractController
 	}
 	
 	/**
-	 * @Route("/tricks/comments", name="trick.comments.show", methods={"POST"})
-	 * @param Request   $request
+	 * @Route("/tricks/{id}/comments", name="trick.comments.show", methods={"POST"})
+	 * @param Request $request
+	 *
+	 * @param Trick   $trick
 	 *
 	 * @return JsonResponse
 	 */
-	public function loadComments(Request $request)
+	public function loadComments(Request $request, Trick $trick)
 	{
 		$data = json_decode($request->getContent(), true);
 		$offset = max(CommentRepository::PAGINATOR_PER_PAGE, $data['offset']);
-		$paginator = $this->repository->getCommentPaginator($offset);
+		$paginator = $this->repository->getCommentPaginator($offset, $trick->getId());
 		$i = 0;
 		foreach ($paginator as $comment) {
 			$usernames[$i] = $comment->getUser()->getUserIdentifier();

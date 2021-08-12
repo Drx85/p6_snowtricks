@@ -23,11 +23,15 @@ class CommentRepository extends ServiceEntityRepository
     }
 	
 	/**
+	 * @param int $trickId
+	 *
 	 * @return Paginator
 	 */
-	public function getFirstComments(): Paginator
+	public function getFirstComments(int $trickId): Paginator
 	{
 		$query = $this->createQueryBuilder('c')
+			->where(":trickId = c.trick")
+			->setParameter("trickId", $trickId)
 			->setMaxResults(self::PAGINATOR_PER_PAGE)
 			->orderBy('c.created_at', 'desc')
 			->getQuery();
@@ -35,13 +39,17 @@ class CommentRepository extends ServiceEntityRepository
 	}
 	
 	/**
-	 * @param int        $offset
+	 * @param int $offset
+	 *
+	 * @param int $trickId
 	 *
 	 * @return Paginator
 	 */
-	public function getCommentPaginator(int $offset): Paginator
+	public function getCommentPaginator(int $offset, int $trickId): Paginator
 	{
 		$query = $this->createQueryBuilder('c')
+			->where(":trickId = c.trick")
+			->setParameter("trickId", $trickId)
 			->setFirstResult($offset)
 			->setMaxResults(self::PAGINATOR_PER_PAGE)
 			->orderBy('c.created_at', 'desc')
