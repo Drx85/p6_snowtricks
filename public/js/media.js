@@ -1,5 +1,5 @@
 window.onload = () => {
-	let links = document.querySelectorAll("[data-delete]")
+	let links = document.querySelectorAll("[data-delete]");
 	for (link of links) {
 		link.addEventListener("click", function (e) {
 			e.preventDefault()
@@ -12,13 +12,13 @@ window.onload = () => {
 					},
 					body: JSON.stringify({"_token": this.dataset.token})
 				}).then(
-					response => response.json()
-				).then(data => {
+					(response) => response.json()
+				).then((data) => {
 					if (data.success)
-						this.parentElement.remove()
+						this.parentElement.remove();
 					else
-						alert(data.error)
-				}).catch(e => alert(e))
+						alert(data.error);
+				}).catch(e => alert(e));
 			}
 		})
 	}

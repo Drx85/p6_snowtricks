@@ -12,6 +12,6 @@
 @media all and (max-width: 800px) {
 	#arrow {
 		margin-top: -50px;
-		margin-bottom: 0px;
+		margin-bottom: 0;
 	}
 }
