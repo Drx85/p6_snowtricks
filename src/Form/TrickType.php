@@ -38,10 +38,10 @@ class TrickType extends AbstractType
 			->add('headerImage', FileType::class, [
 				'required'    => false,
 				'mapped'      => false,
-				'label'       => 'Image à la une',
+				'label'       => 'Image à la une (1920*900 pixels, max 1000 ko)',
 				'constraints' => [
 					new Image([
-						'maxHeight' => 990,
+						'maxHeight' => 900,
 						'minHeight' => 900,
 						'maxWidth'  => 1920,
 						'minWidth'  => 1920
@@ -53,7 +53,7 @@ class TrickType extends AbstractType
 
 			])
 			->add('images', FileType::class, [
-				'label'    => 'Miniatures',
+				'label'    => 'Miniatures (400*250 pixels, max 200 ko)',
 				'multiple' => true,
 				'mapped'   => false,
 				'required' => false,
