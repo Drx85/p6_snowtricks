@@ -46,18 +46,14 @@ To get a copy up and running follow these simple steps.
 ### Server
 
 *   PHP > 7.4.9
-
 *   SMTP server with mailing service or XAMPP/WAMP for local use (mails will not work in local)
-
 *   MySQL DMBS like phpMyAdmin :
 https://docs.phpmyadmin.net/fr/latest/setup.html
 
 ### Framework and libraries
 
 *   Symfony > 5.3.6
-
 *   Libraries will be installed using Composer
-
 *   CSS/JS libraries are directly called via CDN (Bootstrap 5.0.2, Font Awesome 5, Select 2)
 
 ### INSTALLATION
@@ -73,7 +69,6 @@ https://docs.phpmyadmin.net/fr/latest/setup.html
 
 ### Install all dependencies
 1.  Install Composer if you don't have it yet. **See** [Composer Documentation](https://getcomposer.org/download/)
-
 2.  In your CMD, move on your project directory using cd command :
 ```sh
 cd your/directory
