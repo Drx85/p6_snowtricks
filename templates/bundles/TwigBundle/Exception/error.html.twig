@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Une erreur est survenue' %}
+
+{% block body %}
+	<div class="container-fluid ms-4">
+		<h1 class="mt-4">Oups ! Une erreur est survenue</h1>
+		<p class="mt-4">
+			Un erreur est survenue pendant l'accès à cette page. <a href="{{ path('home') }}">Retourner à la page d'accueil</a>.
+		</p>
+		<div class="container-fluid">
+			<img src="{{ asset('imgs/fail.jpg') }}">
+		</div>
+	</div>
+{% endblock %}

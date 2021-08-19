@@ -24,7 +24,7 @@ class Category
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+	private ?string $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="category")

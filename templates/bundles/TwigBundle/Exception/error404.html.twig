@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title '404 Not Found' %}
+
+{% block body %}
+	<div class="container-fluid ms-4">
+		<h1 class="mt-4">Oups ! Page introuvable (404)</h1>
+		<p class="mt-4">
+			La page demandée n'a pas pu être trouvée. Vérifiez l'URL ou <a href="{{ path('home') }}">retournez à la page d'accueil</a>.
+		</p>
+		<div class="container-fluid">
+			<img src="{{ asset('imgs/fail.jpg') }}">
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title '403 Forbidden' %}
+
+{% block body %}
+	<div class="container-fluid ms-4">
+		<h1 class="mt-4">Accès interdit (403)</h1>
+		<p class="mt-4">
+			Vous n'avez pas la permission d'accéder à cette page. <a href="{{ path('home') }}">Retourner à la page d'accueil</a>.
+		</p>
+		<div class="container-fluid">
+			<img src="{{ asset('imgs/closed.jpg') }}">
+		</div>
+	</div>
+{% endblock %}
