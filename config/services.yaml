@@ -7,6 +7,8 @@ parameters:
   images_directory: '%kernel.project_dir%/public/uploads/images'
   header_directory: '%kernel.project_dir%/public/uploads/images/header'
   user_picture_directory: '%kernel.project_dir%/public/uploads/images/user'
+  header_fixtures_directory: '%kernel.project_dir%/public/fixtures/header_image'
+  image_fixtures_directory: '%kernel.project_dir%/public/fixtures/image'
 
 services:
     # default configuration for services in *this* file

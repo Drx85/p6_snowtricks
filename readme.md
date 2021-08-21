@@ -47,8 +47,7 @@ To get a copy up and running follow these simple steps.
 
 *   PHP > 7.4.9
 *   SMTP server with mailing service or XAMPP/WAMP for local use (mails will not work in local)
-*   MySQL DMBS like phpMyAdmin :
-https://docs.phpmyadmin.net/fr/latest/setup.html
+*   MySQL DMBS like phpMyAdmin : https://docs.phpmyadmin.net/fr/latest/setup.html
 
 ### Framework and libraries
 
@@ -92,7 +91,9 @@ php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 ```
 
-3.  Import fixtures running
+3.  (Optional) If you want an admin account, you can open src\DataFixtures\UserFixtures.php, go bellow comment, and then set the username + email + password you want. Otherwise, an admin account will be created with theses default values : username : admin, email: your-email@gmail.com, password : demo
+
+4.  Import fixtures running
 ```sh
 php bin/console doctrine:fixtures:load
 ```
