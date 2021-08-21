@@ -20,7 +20,6 @@ class UserFixtures extends Fixture
 	public function load(ObjectManager $manager)
 	{
 		$faker = Factory::create('fr_FR');
-		
 		for ($i = 0; $i < 10; $i++) {
 			$user = new User();
 			$user->setUsername($faker->userName)
@@ -30,7 +29,6 @@ class UserFixtures extends Fixture
 				->setPassword($this->passwordHasher->hashPassword($user, 'demo'));
 			$manager->persist($user);
 		}
-		
 		//Create 1 admin account, you can set your username, mail, and password
 		$user = new User();
 		$user->setUsername('admin')
@@ -39,7 +37,6 @@ class UserFixtures extends Fixture
 			->setIsVerified(true)
 			->setPassword($this->passwordHasher->hashPassword($user, 'demo'));
 		$manager->persist($user);
-		
 		$manager->flush();
 	}
 }

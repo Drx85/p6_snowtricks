@@ -30,19 +30,15 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
 	public function load(ObjectManager $manager)
 	{
 		$tricks = $this->trickRepository->findAll();
-		
 		foreach ($tricks as $trick) {
-			for ($i = 0; $i < mt_rand(1, 3); $i++) {
+			for ($i = 0; $i < mt_rand(2, 3); $i++) {
 				$file = mt_rand(1, 23) . '.jpg';
 				$image = new Image();
 				$image->setTrick($trick)
 					->setName($file);
 				$manager->persist($image);
-				
 				copy($this->params->get('image_fixtures_directory') . '/' . $file, $this->params->get('image_fixtures_directory') . '/copy-' . $file,);
-				
 				$headerImage = new UploadedFile($this->params->get('image_fixtures_directory') . '/copy-' . $file, 'Image', null, null, true, true);
-				
 				$headerImage->move(
 					$this->params->get('images_directory'),
 					$file

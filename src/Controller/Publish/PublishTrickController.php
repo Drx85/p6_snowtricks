@@ -34,7 +34,7 @@ class PublishTrickController extends BaseController
 		if ($form->isSubmitted() && $form->isValid()) {
 			$images = $form->get('images')->getData();
 			$this->addImage($images, $trick);
-			$headerImage = $form->get('headerImage')->getData(); var_dump($headerImage); die;
+			$headerImage = $form->get('headerImage')->getData();
 			if ($headerImage) {
 				$file = $this->addHeaderImage($headerImage);
 			} else {

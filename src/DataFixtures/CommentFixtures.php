@@ -32,12 +32,11 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
 		$faker = Factory::create('fr_FR');
 		$tricks = $this->trickRepository->findAll();
 		$users = $this->userRepository->findAll();
-	
 		foreach ($tricks as $trick) {
 			for ($i = 0; $i < mt_rand(0, 15); $i++) {
 				$comment = new Comment();
 				$comment->setMessage($faker->sentences(2, true))
-					->setUser($users[mt_rand(1, 10)])
+					->setUser($users[mt_rand(0, 9)])
 					->setTrick($trick);
 				$manager->persist($comment);
 			}

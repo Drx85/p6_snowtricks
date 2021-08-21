@@ -35,21 +35,17 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
 		$users = $this->userRepository->findAll();
 		
 		foreach ($categories as $category) {
-			for ($i = 0; $i < mt_rand(0, 5); $i++) {
+			for ($i = 0; $i < mt_rand(1, 6); $i++) {
 				$file = mt_rand(1, 10) . '.jpg';
 				$trick = new Trick();
 				$trick->setCategory($category)
 					->setTitle($faker->words(3, true))
 					->setDescription($faker->sentences(10, true))
-					->setUser($users[mt_rand(1, 10)])
+					->setUser($users[mt_rand(0, 9)])
 					->setHeaderImage($file);
-				
 				$manager->persist($trick);
-				
 				copy($this->params->get('header_fixtures_directory') . '/' . $file, $this->params->get('header_fixtures_directory') . '/copy-' . $file,);
-				
 				$headerImage = new UploadedFile($this->params->get('header_fixtures_directory') . '/copy-' . $file, 'HeaderImage', null, null, true, true);
-				
 				$headerImage->move(
 					$this->params->get('header_directory'),
 					$file
