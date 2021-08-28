@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class TrickController extends AbstractController
 {
@@ -68,7 +70,7 @@ class TrickController extends AbstractController
 			$this->addFlash('success', 'Commentaire ajouté avec succès.');
 			return $this->redirectToRoute('home');
 		}
-		$comments = $this->repository->getFirstComments($trick->getId());
+		$comments = $this->repository->getCommentPaginator($trick->getId());
 		return $this->render('trick/show.html.twig', [
 			'trick'    => $trick,
 			'form'     => $form->createView(),
@@ -78,37 +80,26 @@ class TrickController extends AbstractController
 	
 	/**
 	 * @Route("/tricks/{id}/comments", name="trick.comments.show", methods={"POST"})
-	 * @param Request $request
+	 * @param Request             $request
 	 *
-	 * @param Trick   $trick
+	 * @param Trick               $trick
+	 * @param NormalizerInterface $normalizer
 	 *
 	 * @return JsonResponse
+	 * @throws ExceptionInterface
 	 */
-	public function loadComments(Request $request, Trick $trick)
+	public function loadComments(Request $request, Trick $trick, NormalizerInterface $normalizer)
 	{
 		$data = json_decode($request->getContent(), true);
 		$offset = max(CommentRepository::PAGINATOR_PER_PAGE, $data['offset']);
-		$paginator = $this->repository->getCommentPaginator($offset, $trick->getId());
+		$paginator = $this->repository->getCommentPaginator($trick->getId(), $offset);
+		$paginator = $paginator->getQuery()->getResult();
+		$paginator = $normalizer->normalize($paginator, null, ['groups' => 'comment:read']);
 		$i = 0;
-		foreach ($paginator as $comment) {
-			$usernames[$i] = $comment->getUser()->getUserIdentifier();
-			$userPictures[$i] = $comment->getUser()->getPicture();
-			$i++;
-		}
-		$paginator = $paginator->getQuery()->getArrayResult();
-		$array_size = $this->repository::PAGINATOR_PER_PAGE;
-		if(count($paginator) < $this->repository::PAGINATOR_PER_PAGE) $array_size = count($paginator);
-		for ($i = 0; $i < $array_size; $i++) {
-			array_push($paginator[$i], $usernames[$i]);
-			array_push($paginator[$i], $userPictures[$i]);
-			
-			$timeStamp = date_timestamp_get($paginator[$i]['created_at']);
+		foreach ($paginator as $p) {
+			$timeStamp = strtotime($paginator[$i]['created_at']);
 			$paginator[$i]['created_at'] = $timeStamp;
-			
-			$paginator[$i]['username'] = $paginator[$i][0];
-			unset($paginator[$i][0]);
-			$paginator[$i]['userPicture'] = $paginator[$i][1];
-			unset($paginator[$i][1]);
+			$i++;
 		}
 		return new JsonResponse(['comments' => $paginator]);
 	}
