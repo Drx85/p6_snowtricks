@@ -41,8 +41,8 @@ class PublishTrickController extends BaseController
 				$file = 'default.jpg';
 			}
 			$trick->setHeaderImage($file);
-			$videoLink = $form->get('videos')->getData();
-			if ($videoLink) $this->addVideo($videoLink, $trick);
+			$videoUrls = $form->get('videos')->getData();
+			if ($videoUrls) $this->addVideo($videoUrls, $trick);
 			$trick->setUser($user);
 			$em->persist($trick);
 			$em->flush();
@@ -62,7 +62,7 @@ class PublishTrickController extends BaseController
 	 *
 	 * @return Response
 	 */
-	public function edit(Trick $trick, Request $request)
+	public function edit(Trick $trick, Request $request, EntityManagerInterface $em)
 	{
 		$this->denyAccessUnlessGranted('trick_edit', $trick);
 		$form = $this->createForm(TrickType::class, $trick);
@@ -76,9 +76,9 @@ class PublishTrickController extends BaseController
 				$file = $this->addHeaderImage($headerImage);
 				$trick->setHeaderImage($file);
 			}
-			$videoLink = $form->get('videos')->getData();
-			if ($videoLink) $this->addVideo($videoLink, $trick);
-			$this->em->flush();
+			$videoUrls = $form->get('videos')->getData();
+			if ($videoUrls) $this->addVideo($videoUrls, $trick);
+			$em->flush();
 			$this->addFlash('success', 'Figure modifiée avec succès.');
 			return $this->redirectToRoute('home');
 		}

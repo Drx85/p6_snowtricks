@@ -43,11 +43,7 @@ class BaseController extends AbstractController
 	
 	protected function addVideo($urls, $trick)
 	{
-		$urls = explode(",", $urls);
-		$parser = new UrlToEmbedUrl();
-		
 		foreach ($urls as $url) {
-			$url = $parser->embedUrl($url);
 			if ($url) {
 				$video = new Video();
 				$video->setLink($url);

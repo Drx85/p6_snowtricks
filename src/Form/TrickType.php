@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Trick;
+use App\Service\UrlToEmbedUrl;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,12 +30,9 @@ class TrickType extends AbstractType
 			])
 			->add('description')
 			->add('videos', TextAreaType::class, [
-				'mapped' => false,
+				'mapped'   => false,
 				'required' => false,
-				'label' => 'Ajouter des liens vidéos YouTube ou Dailymotion (séparés par une virgule, sans espace)',
-				'constraints' => [
-					new Url()
-				]
+				'label'    => 'Ajouter des liens vidéos YouTube ou Dailymotion (séparés par une virgule, sans espace)',
 			])
 			->add('headerImage', FileType::class, [
 				'required'    => false,
@@ -50,28 +49,44 @@ class TrickType extends AbstractType
 						'maxSize' => '1000k',
 					])
 				],
-
+			
 			])
 			->add('images', FileType::class, [
-				'label'    => 'Miniatures (400*250 pixels, max 200 ko)',
-				'multiple' => true,
-				'mapped'   => false,
-				'required' => false,
+				'label'       => 'Miniatures (400*250 pixels, max 200 ko)',
+				'multiple'    => true,
+				'mapped'      => false,
+				'required'    => false,
 				'constraints' => [
 					new All([
-					new Image([
-						'maxHeight' => 250,
-						'minHeight' => 250,
-						'maxWidth'  => 400,
-						'minWidth'  => 400
-					]),
-					new File([
-						'maxSize' => '200k',
-					])
+							new Image([
+								'maxHeight' => 250,
+								'minHeight' => 250,
+								'maxWidth'  => 400,
+								'minWidth'  => 400
+							]),
+							new File([
+								'maxSize' => '200k',
+							])
 						]
 					)
 				],
-			]);
+			])
+			->get('videos')
+			->addModelTransformer(new CallbackTransformer(
+				function ($video) {
+					return $video;
+				},
+				function ($videoToArray) {
+					$urls = explode(",", $videoToArray);
+					$parser = new UrlToEmbedUrl();
+					$i = 0;
+					foreach ($urls as $url) {
+						$urls[$i] = $parser->embedUrl($urls[$i]);
+						$i++;
+					}
+					return $urls;
+				}
+			));
 	}
 	
 	public function configureOptions(OptionsResolver $resolver)
