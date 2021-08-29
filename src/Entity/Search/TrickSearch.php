@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Entity;
+namespace App\Entity\Search;
 
 
 use Doctrine\Common\Collections\ArrayCollection;

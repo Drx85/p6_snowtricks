@@ -5,7 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Comment;
-use App\Entity\TrickSearch;
+use App\Entity\Search\TrickSearch;
 use App\Form\CommentType;
 use App\Form\TrickSearchType;
 use App\Repository\TrickRepository;

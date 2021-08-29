@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Trick;
-use App\Entity\TrickSearch;
+use App\Entity\Search\TrickSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
