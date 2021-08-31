@@ -17,7 +17,7 @@ This website :
 *   Give possibility to create/update/delete tricks and to delete comments when connected as admin
 *   Give possibility to a user to create new trick, or edit their own tricks
 *   Give possibility to a user to edit his password by receiving an email
-*   Use only official Bundles (listed here [https://flex.symfony.com/](https://flex.symfony.com/))
+*   Use only official Bundles (listed here [https://flex.symfony.com/](https://flex.symfony.com/)) (excepts Faker)
 *   Is monitored by Codacy and Code Climate
 
 ### Built With
