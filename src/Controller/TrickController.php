@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -79,7 +80,7 @@ class TrickController extends AbstractController
 	}
 	
 	/**
-	 * @Route("/tricks/{id}/comments", name="trick.comments.show", methods={"POST"})
+	 * @Route("/tricks/{id}/comments", name="trick.comments.show", methods={"GET"})
 	 * @param Request             $request
 	 *
 	 * @param Trick               $trick
@@ -88,10 +89,9 @@ class TrickController extends AbstractController
 	 * @return JsonResponse
 	 * @throws ExceptionInterface
 	 */
-	public function loadComments(Request $request, Trick $trick, NormalizerInterface $normalizer)
+	public function loadComments(Request $request, Trick $trick, NormalizerInterface $normalizer, Security $security)
 	{
-		$data = json_decode($request->getContent(), true);
-		$offset = max(CommentRepository::PAGINATOR_PER_PAGE, $data['offset']);
+		$offset = $request->get('offset');
 		$paginator = $this->repository->getCommentPaginator($trick->getId(), $offset);
 		$paginator = $paginator->getQuery()->getResult();
 		$paginator = $normalizer->normalize($paginator, null, ['groups' => 'comment:read']);
@@ -101,6 +101,13 @@ class TrickController extends AbstractController
 			$paginator[$i]['created_at'] = $timeStamp;
 			$i++;
 		}
-		return new JsonResponse(['comments' => $paginator]);
+		
+		$user = $security->getUser();
+		$userRoles = (isset($user)) ? $user->getRoles() : [];
+		
+		return new JsonResponse([
+			'comments' => $paginator,
+			'userRoles' => $userRoles
+		]);
 	}
 }
