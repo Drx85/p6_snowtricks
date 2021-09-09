@@ -7,7 +7,7 @@ addEventListener("load", function () {
 	let link = document.querySelector("[data-load]");
 	link.addEventListener("click", function (e) {
 		e.preventDefault();
-		let url = this.getAttribute("href") + '&offset=' + offset
+		let url = this.getAttribute("href") + "&offset=" + offset;
 		fetch(url).then(
 			(response) => response.json()
 		).then((data) => {
@@ -20,7 +20,7 @@ addEventListener("load", function () {
 				if (!c.user.picture)
 					c.user.picture = "default.jpg";
 				
-				if (data.userRoles.includes('ROLE_ADMIN')) {
+				if (data.userRoles.includes("ROLE_ADMIN")) {
 				container.innerHTML +=
 					'<li>' +
 						'<div class="row mb-4" id="' + c.id + '">' +
@@ -82,7 +82,7 @@ addEventListener("load", function () {
 			}
 		}).catch(e => alert(e));
 	});
-})
+});
 
 
 

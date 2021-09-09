@@ -21,6 +21,6 @@ window.onload = () => {
 						alert(data.error);
 				}).catch(e => alert(e));
 			}
-		})
+		});
 	}
-}
+};
