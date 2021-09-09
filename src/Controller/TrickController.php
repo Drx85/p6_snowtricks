@@ -8,7 +8,6 @@ use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
-use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,8 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
 
 class TrickController extends AbstractController
 {
@@ -89,7 +90,7 @@ class TrickController extends AbstractController
 	 * @return JsonResponse
 	 * @throws ExceptionInterface
 	 */
-	public function loadComments(Request $request, Trick $trick, NormalizerInterface $normalizer, Security $security)
+	public function loadComments(Request $request, Trick $trick, NormalizerInterface $normalizer, Security $security, CsrfTokenManagerInterface $csrfTokenManager)
 	{
 		$offset = $request->get('offset');
 		$paginator = $this->repository->getCommentPaginator($trick->getId(), $offset);
@@ -99,9 +100,9 @@ class TrickController extends AbstractController
 		foreach ($paginator as $p) {
 			$timeStamp = strtotime($paginator[$i]['created_at']);
 			$paginator[$i]['created_at'] = $timeStamp;
+			$paginator[$i]['csrfToken'] = $normalizer->normalize($csrfTokenManager->getToken('delete' . $paginator[$i]['id']));
 			$i++;
 		}
-		
 		$user = $security->getUser();
 		$userRoles = (isset($user)) ? $user->getRoles() : [];
 		

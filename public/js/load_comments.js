@@ -11,12 +11,8 @@ addEventListener("load", function () {
 		fetch(url).then(
 			(response) => response.json()
 		).then((data) => {
-			
 			for (c of data.comments) {
 				const container = document.getElementById("comments");
-				
-				
-				
 				const timestamp = c.created_at * 1000;
 				const dateObject = new Date(timestamp);
 				const dateFormat = dateObject.toLocaleDateString();
@@ -34,7 +30,7 @@ addEventListener("load", function () {
 							'<div class="col-xxl-11 col-xl-10 col-lg-9 col-md-8 col-sm-7">' +
 								'<h5>Par ' + c.user.username + ', le ' + dateFormat +
 									'<a href="../admin/delete/comment/' + c.id + '"' +
-									'data-delete-js data-token="">' +
+									'data-delete-js data-token="' + c.csrfToken.value +'">' +
 									'<button class="border-0 bg-white"><i class="far fa-trash-alt text-info h5"></i></button>' +
 									'</a>' +
 								'</h5>' +
