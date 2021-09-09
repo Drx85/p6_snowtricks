@@ -35,10 +35,9 @@ class PublishTrickController extends BaseController
 			$images = $form->get('images')->getData();
 			$this->addImage($images, $trick);
 			$headerImage = $form->get('headerImage')->getData();
+			$file = 'default.jpg';
 			if ($headerImage) {
 				$file = $this->addHeaderImage($headerImage);
-			} else {
-				$file = 'default.jpg';
 			}
 			$trick->setHeaderImage($file);
 			$videoUrls = $form->get('videos')->getData();

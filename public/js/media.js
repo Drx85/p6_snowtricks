@@ -2,7 +2,7 @@ window.onload = () => {
 	let links = document.querySelectorAll("[data-delete]");
 	for (link of links) {
 		link.addEventListener("click", function (e) {
-			e.preventDefault()
+			e.preventDefault();
 			if (confirm("Confirmer la suppression (immédiate et définitive) ?")) {
 				fetch(this.getAttribute("href"), {
 					method: "DELETE",
@@ -20,6 +20,6 @@ window.onload = () => {
 						alert(data.error);
 				}).catch(e => alert(e));
 			}
-		})
+		});
 	}
-}
+};

@@ -78,7 +78,7 @@ addEventListener("load", function () {
 								alert(data.error);
 						}).catch(e => alert(e));
 					}
-				})
+				});
 			}
 		}).catch(e => alert(e));
 	});
