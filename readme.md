@@ -101,7 +101,7 @@ php bin/console doctrine:fixtures:load
 
 ### Online example version
 
-Please see an hosted example version here : *waiting end of project to share link*
+Please see an hosted example version here : [https://deperne.fr/snowtricks/public/](https://deperne.fr/snowtricks/public/)
 
 ## Contact
 

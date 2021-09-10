@@ -4,7 +4,7 @@
 
 {% block body %}
 	
-	<img src="{{ asset('/uploads/images/header/' ~ trick.headerImage) }}" alt="Header-Image">
+	<img src="{{ hostname ~ asset('/uploads/images/header/' ~ trick.headerImage) }}" alt="Header-Image">
 	
 	<div class="d-flex flex-row-reverse me-4 mt-2">
 		{% if is_granted('trick_edit', trick) %}
@@ -44,7 +44,7 @@
 						{% endif %}
 						{% for image in trick.images %}
 							<div class="carousel-item {% if loop.index == 1 %} active {% endif %}">
-								<img src="{{ asset('/uploads/images/' ~ image.name) }}" alt="trick image">
+								<img src="{{ hostname ~ asset('/uploads/images/' ~ image.name) }}" alt="trick image">
 							</div>
 						{% endfor %}
 						{% if trick.images %}
@@ -96,7 +96,7 @@
 			<div class="collapse mb-4 text-center" id="collapse">
 				{% for image in trick.images %}
 					<div class="col">
-						<img src="{{ asset('/uploads/images/' ~ image.name) }}" alt="Image">
+						<img src="{{ hostname ~ asset('/uploads/images/' ~ image.name) }}" alt="Image">
 					</div>
 				{% endfor %}
 				{% for video in trick.videos %}
@@ -122,9 +122,9 @@
 						<div class="row mb-4" id="{{ comment.id }}">
 							<div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4 col-sm-5 d-flex justify-content-sm-end">
 								{% if comment.user.picture %}
-									<img src="{{ asset('/uploads/images/user/' ~ comment.user.picture) }}" class="mb-3 rounded-circle" alt="Avatar" width="100" height="100">
+									<img src="{{ hostname ~ asset('/uploads/images/user/' ~ comment.user.picture) }}" class="mb-3 rounded-circle" alt="Avatar" width="100" height="100">
 								{% else %}
-									<img src="{{ asset('/uploads/images/user/default.jpg') }}" class="mb-3 rounded-circle" alt="Avatar" width="100" height="100">
+									<img src="{{ hostname ~ asset('/uploads/images/user/default.jpg') }}" class="mb-3 rounded-circle" alt="Avatar" width="100" height="100">
 								{% endif %}
 							</div>
 							<div class="col-xxl-11 col-xl-10 col-lg-9 col-md-8 col-sm-7">

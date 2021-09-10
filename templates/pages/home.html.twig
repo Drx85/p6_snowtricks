@@ -49,7 +49,7 @@
 					<div class="col mt-4">
 						<div class="card h-100 bg-light border-secondary">
 							{% if trick.headerImage %}
-								<img src="{{ asset('/uploads/images/header/' ~ trick.headerImage) }}" alt="Header-Image">
+								<img src="{{ hostname ~ asset('/uploads/images/header/' ~ trick.headerImage) }}" alt="Header-Image">
 							{% endif %}
 							<div class="card-body">
 								<h5 class="card-title">
