@@ -63,7 +63,7 @@ To get a copy up and running follow these simple steps.
 
 ### Config 
 
-1.  Open ***.env*** file, then replace Database and SMTP fields with your own information 
+1.  Open ***.env.example*** file, replace Database (line 29) and SMTP (line 21) fields with your own information, and rename it ***.env*** 
 2.  If you are missing any information, please ask you webhost for SMTP and Database credentials
 
 ### Install all dependencies
@@ -95,6 +95,13 @@ php bin/console doctrine:migrations:migrate
 4.  Import fixtures running
 ```sh
 php bin/console doctrine:fixtures:load
+```
+
+### Server
+
+1.  To start the server, run
+```sh
+symfony s:start
 ```
 
 ## Usage
