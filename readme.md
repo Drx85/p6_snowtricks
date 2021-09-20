@@ -97,7 +97,7 @@ php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ```
 
-### Server
+### Server (local only)
 
 1.  To start the server, run
 ```sh
